@@ -217,7 +217,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-04 15:28:36 / Modified: 15:46:36" itemprop="dateCreated datePublished" datetime="2020-04-04T15:28:36+08:00">2020-04-04</time>
+              <time title="Created: 2020-04-04 15:28:36 / Modified: 16:56:31" itemprop="dateCreated datePublished" datetime="2020-04-04T15:28:36+08:00">2020-04-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -240,42 +240,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="LeetCode-30-days-Challenge-Day-1"><a href="#LeetCode-30-days-Challenge-Day-1" class="headerlink" title="LeetCode 30 days Challenge - Day 1"></a>LeetCode 30 days Challenge - Day 1</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
-<hr>
-<p>Single Number</p>
-<p>Given a <strong>non-empty</strong> array of integers, every element appears <em>twice</em> except for one. Find that single one.</p>
-<p><strong>Note:</strong></p>
-<p>Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [2,2,1]</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [4,1,2,1,2]</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>题目要求分析：给定非空数组，找到单独出现的元素。</p>
-<ul>
-<li><p>时间复杂度：O(n)</p>
-</li>
-<li><p>空间复杂度：O(1)</p>
-</li>
-</ul>
-<p>解法：</p>
-<p>关键利用异或运算符<code>^</code>，对于异或运算：</p>
-<ul>
-<li>a ^ a == 0</li>
-<li>a ^ 0 == a</li>
-<li>a ^ b ^ c = a ^ c ^ b</li>
-</ul>
-<p>结合题目给出除了目标元素外，其余元素各出现两次，不难想到遍历整个数组，逐个将元素进行异或运算，最后剩下的元素即为目标。</p>
-<hr>
-<p>Solution</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums) res ^= n;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3283/" target="_blank" rel="noopener">Single Number</a></p>
-<p>Karl</p>
-
+          <p>Day-1 Single Number</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/04/leetcode-day-1/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
