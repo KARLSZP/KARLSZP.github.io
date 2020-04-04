@@ -81,4 +81,71 @@
         <tag>LeetCode</tag>
       </tags>
   </entry>
+  <entry>
+    <title>leetcode-day-3</title>
+    <url>/2020/04/04/leetcode-day-3/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-3"><a href="#LeetCode-30-days-Challenge-Day-3" class="headerlink" title="LeetCode 30 days Challenge - Day 3"></a>LeetCode 30 days Challenge - Day 3</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<p>Maximum Subarray</p>
+<p>Solution</p>
+<p>Given an integer array <code>nums</code>, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: [4,-1,2,1] has the largest sum &#x3D; 6.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Follow up:</strong></p>
+<p>If you have figured out the O(<em>n</em>) solution, try coding another solution using the divide and conquer approach, which is more subtle.</p>
+<hr>
+<p>题目要求分析：给定一个整型数组，找到其中连续和最大的子数组。</p>
+<blockquote>
+<p>本题是算法导论原题，可以参考原书，以加深理解。</p>
+</blockquote>
+<p>解法一（遍历，追踪最大值）：</p>
+<p>维护一个遍历res为最终答案，cur记录当前已经积累的值，当cur &lt; 0时，重置cur为0。</p>
+<p>初次接触者可能有两个问题：</p>
+<ol>
+<li><p>为什么cur小于0才重置，而不是cur变小了就重置？</p>
+<p>cur变小说明加了一个负数，但“迄今为止”，我们所累加的仍是一个正值。</p>
+</li>
+<li><p>能保证完备性吗？</p>
+<p>能。每次cur的更新意味着一个子数组的结束。不妨考虑：</p>
+<p>最坏情况：全是负数的数组，每遍历一个值便更新一次cur，res成功track最大的负数。</p>
+<p>最佳情况：全数组非负，直到结束不会更新cur，res成功track整个数组的和和。</p>
+<p>其他情况：尽可能地以正数为子数组的第一个元素，遇到负数进行“容忍”，直到该子数组和为负，res成功track所有子数组和中最大的一个。</p>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> cur = <span class="number">0</span>, res = nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i : nums) &#123;</span><br><span class="line">        cur += i;</span><br><span class="line">        res = max(cur, res);</span><br><span class="line">        <span class="keyword">if</span> (cur &lt; <span class="number">0</span>) cur = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>解法二（分治法）：</p>
+<p>这个方法是《算法导论》中介绍的，对每一个数组：</p>
+<ol>
+<li>取中点，分成左右两份，数组的最大子数组和可能包括或者不包括中点。</li>
+<li>考虑以下情况：<ol>
+<li>不包括中点，在左边一份：递归地，对左边一份进行求解。</li>
+<li>不包括中点，在右边一份：递归地，对左边一份进行求解。</li>
+<li>包括中点：中点加上左边一份的最大尾部和以及右边一份的最大头部和。</li>
+</ol>
+</li>
+<li>计算上述三种情况，取最大即为所求。</li>
+</ol>
+<p>取题中示例：[-2,1,-3,4,-1,2,1,-5,4]</p>
+<p>取中点 -1, 分为：[-2,1,-3,4],-1, [2,1,-5,4]</p>
+<ol>
+<li>对[-2,1,-3,4]进行求解</li>
+<li>对 [2,1,-5,4]进行求解</li>
+<li>包括-1，左边最大尾部和：4+(-3)+1 = 2，右边最大头部和：2+1 = 3</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 包括中点</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">crossmid</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> l, <span class="keyword">int</span> mid, <span class="keyword">int</span> r)</span> </span>&#123; </span><br><span class="line">    <span class="keyword">int</span> l_res = INT_MIN, r_res = INT_MIN;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cur = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">// 左边最大尾部和</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = mid; i &gt;=l; i--) &#123;</span><br><span class="line">        cur += nums[i];</span><br><span class="line">        <span class="keyword">if</span> (cur &gt; l_res) l_res = cur;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cur = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 右边最大头部和</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = mid+<span class="number">1</span>; i &lt;= r; i++) &#123;</span><br><span class="line">        cur += nums[i];</span><br><span class="line">        <span class="keyword">if</span> (cur &gt; r_res) r_res = cur;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> l_res + r_res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 不包括中点</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">side</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l == r) <span class="keyword">return</span> nums[l];</span><br><span class="line">    <span class="keyword">int</span> mid = (l + r) / <span class="number">2</span>;</span><br><span class="line">    <span class="comment">// 求三者最大值</span></span><br><span class="line">    <span class="keyword">return</span> max(max(side(nums, l, mid), side(nums, mid + <span class="number">1</span>, r)),  crossmid(nums, l, mid, r));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> side(nums, <span class="number">0</span>, nums.size() - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3285/" target="_blank" rel="noopener">Maximum Subarray</a></p>
+<p>Karl</p>
+]]></content>
+      <categories>
+        <category>Algorithms</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
 </search>
