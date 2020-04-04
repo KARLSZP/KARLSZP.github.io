@@ -46,4 +46,39 @@
         <tag>LeetCode</tag>
       </tags>
   </entry>
+  <entry>
+    <title>leetcode-day-2</title>
+    <url>/2020/04/04/leetcode-day-2/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-2"><a href="#LeetCode-30-days-Challenge-Day-2" class="headerlink" title="LeetCode 30 days Challenge - Day 2"></a>LeetCode 30 days Challenge - Day 2</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<p>Happy Number</p>
+<p>Write an algorithm to determine if a number is “happy”.</p>
+<p>A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.</p>
+<p><strong>Example:</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 19</span><br><span class="line">Output: true</span><br><span class="line">Explanation: </span><br><span class="line">1^2 + 9^2 &#x3D; 82</span><br><span class="line">8^2 + 2^2 &#x3D; 68</span><br><span class="line">6^2 + 8^2 &#x3D; 100</span><br><span class="line">1^2 + 0^2 + 0^2 &#x3D; 1</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>题目要求分析：给定一个整数，将该整数每一位平方加和得到新的整数，重复直到整数为1或出现循环。</p>
+<p>解法：</p>
+<p>快慢指针：遇到出现循环情况的题目，可以考虑快慢指针的方法：</p>
+<ul>
+<li>快指针：一次走2步（在本题中即进行两次运算）。</li>
+<li>慢指针：一次走1步（进行一次运算）。</li>
+</ul>
+<p>在若干次迭代后，如果存在循环，快慢指针会指向同一值，此时退出循环即可。</p>
+<hr>
+<p>Solution</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">get_pow</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (n) &#123;</span><br><span class="line">            tmp += (n % <span class="number">10</span>) * (n % <span class="number">10</span>);</span><br><span class="line">            n /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isHappy</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">int</span> slow = n, fast = n;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            slow = get_pow(slow);</span><br><span class="line">            fast = get_pow(fast);</span><br><span class="line">            fast = get_pow(fast);</span><br><span class="line">        &#125; <span class="keyword">while</span> (slow != fast);</span><br><span class="line">        <span class="keyword">return</span> (slow == <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3284/" target="_blank" rel="noopener">Happy Number</a></p>
+<p>Karl</p>
+]]></content>
+      <categories>
+        <category>Algorithms</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
 </search>
