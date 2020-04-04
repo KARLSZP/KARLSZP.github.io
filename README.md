@@ -1,4 +1,4 @@
-# :round_pushpin:Karl's Nest
+# <img src="images/icon.png" style="zoom: 33%;" /> Karl's Nest :round_pushpin:
 
 Welcome to [Karl's Nest](https://karlszp.github.io/) built on Github Page :kissing_heart:
 
