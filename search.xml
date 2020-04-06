@@ -178,4 +178,50 @@
         <tag>LeetCode</tag>
       </tags>
   </entry>
+  <entry>
+    <title>leetcode-day-5</title>
+    <url>/2020/04/06/leetcode-day-5/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-5"><a href="#LeetCode-30-days-Challenge-Day-5" class="headerlink" title="LeetCode 30 days Challenge - Day 5"></a>LeetCode 30 days Challenge - Day 5</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Best-Time-to-Buy-and-Sell-Stock-II"><a href="#Best-Time-to-Buy-and-Sell-Stock-II" class="headerlink" title="Best Time to Buy and Sell Stock II"></a>Best Time to Buy and Sell Stock II</h2><p>Say you have an array for which the <em>i</em>th element is the price of a given stock on day <em>i</em>.</p>
+<p>Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).</p>
+<p><strong>Note:</strong> You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [7,1,5,3,6,4]</span><br><span class="line">Output: 7</span><br><span class="line">Explanation: Buy on day 2 (price &#x3D; 1) and sell on day 3 (price &#x3D; 5), profit &#x3D; 5-1 &#x3D; 4.</span><br><span class="line">             Then buy on day 4 (price &#x3D; 3) and sell on day 5 (price &#x3D; 6), profit &#x3D; 6-3 &#x3D; 3.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [1,2,3,4,5]</span><br><span class="line">Output: 4</span><br><span class="line">Explanation: Buy on day 1 (price &#x3D; 1) and sell on day 5 (price &#x3D; 5), profit &#x3D; 5-1 &#x3D; 4.</span><br><span class="line">             Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are</span><br><span class="line">             engaging multiple transactions at the same time. You must sell before buying again.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [7,6,4,3,1]</span><br><span class="line">Output: 0</span><br><span class="line">Explanation: In this case, no transaction is done, i.e. max profit &#x3D; 0.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整型数组，记录着若干天股票的价格，进行任意次买入卖出（买入后必须先卖出再进行下一次买入），求最大利润。</p>
+<p>解法：</p>
+<p>本题是股票的买卖时机系列的第二题，问题关键在于理解：</p>
+<ol>
+<li><p>对于多日连续上升的情况，每日都进行一次买入卖出等价于最低日买入、最高日卖出；</p>
+<p>在下图中，注意：A + B + C = D</p>
+<p><img src="http://yanxuan.nosdn.127.net/70510710f7ef55f3a80d7fa901b23296.png" alt="img2.png"></p>
+</li>
+<li><p>对于两次连续的谷底、峰值情况，每次都进行买入、卖出会优于只进行一次买入、卖出；</p>
+<p>在下图中，注意：A + B &gt; C</p>
+<p><img src="http://yanxuan.nosdn.127.net/33235b8621329a12ddcf1acfd135fa3e.png" alt="img1.png"></p>
+</li>
+</ol>
+<p>理解了以上两种情况，就能推导出最佳情况实际上就是逐日进行检查，当每日价格高于前一天时，就能盈利。</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;prices.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (prices[i] &gt; prices[i<span class="number">-1</span>]) res += prices[i] - prices[i<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3287/" target="_blank" rel="noopener">Best Time to Buy and Sell Stock II</a></p>
+<p>Karl</p>
+]]></content>
+      <categories>
+        <category>Algorithms</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
 </search>
