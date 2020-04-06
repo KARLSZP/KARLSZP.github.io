@@ -29,7 +29,7 @@
 <meta property="og:site_name" content="Karl&#39;s Nest">
 <meta property="og:description" content="Day-1 Single Number">
 <meta property="article:published_time" content="2020-04-04T07:28:36.000Z">
-<meta property="article:modified_time" content="2020-04-04T08:56:31.888Z">
+<meta property="article:modified_time" content="2020-04-06T08:11:12.063Z">
 <meta property="article:author" content="Karl Szp">
 <meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
@@ -220,10 +220,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-04-04 15:28:36 / Modified: 16:56:31" itemprop="dateCreated datePublished" datetime="2020-04-04T15:28:36+08:00">2020-04-04</time>
+              <time title="Created: 2020-04-04 15:28:36" itemprop="dateCreated datePublished" datetime="2020-04-04T15:28:36+08:00">2020-04-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-06 16:11:12" itemprop="dateModified" datetime="2020-04-06T16:11:12+08:00">2020-04-06</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -248,8 +254,7 @@
       
         <h1 id="LeetCode-30-days-Challenge-Day-1"><a href="#LeetCode-30-days-Challenge-Day-1" class="headerlink" title="LeetCode 30 days Challenge - Day 1"></a>LeetCode 30 days Challenge - Day 1</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
 <hr>
-<p>Single Number</p>
-<p>Given a <strong>non-empty</strong> array of integers, every element appears <em>twice</em> except for one. Find that single one.</p>
+<h2 id="Single-Number"><a href="#Single-Number" class="headerlink" title="Single Number"></a>Single Number</h2><p>Given a <strong>non-empty</strong> array of integers, every element appears <em>twice</em> except for one. Find that single one.</p>
 <p><strong>Note:</strong></p>
 <p>Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?</p>
 <p><strong>Example 1:</strong></p>
@@ -259,7 +264,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [4,1,2,1,2]</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>题目要求分析：给定非空数组，找到单独出现的元素。</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定非空数组，找到单独出现的元素。</p>
 <ul>
 <li><p>时间复杂度：O(n)</p>
 </li>
@@ -275,7 +280,6 @@
 </ul>
 <p>结合题目给出除了目标元素外，其余元素各出现两次，不难想到遍历整个数组，逐个将元素进行异或运算，最后剩下的元素即为目标。</p>
 <hr>
-<p>Solution</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums) res ^= n;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
@@ -361,7 +365,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode-30-days-Challenge-Day-1"><span class="nav-number">1.</span> <span class="nav-text">LeetCode 30 days Challenge - Day 1</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode-30-days-Challenge-Day-1"><span class="nav-number">1.</span> <span class="nav-text">LeetCode 30 days Challenge - Day 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Single-Number"><span class="nav-number">1.1.</span> <span class="nav-text">Single Number</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.2.</span> <span class="nav-text">Solution</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -377,7 +381,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

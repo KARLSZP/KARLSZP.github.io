@@ -5,8 +5,7 @@
     <url>/2020/04/04/leetcode-day-1/</url>
     <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-1"><a href="#LeetCode-30-days-Challenge-Day-1" class="headerlink" title="LeetCode 30 days Challenge - Day 1"></a>LeetCode 30 days Challenge - Day 1</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
 <hr>
-<p>Single Number</p>
-<p>Given a <strong>non-empty</strong> array of integers, every element appears <em>twice</em> except for one. Find that single one.</p>
+<h2 id="Single-Number"><a href="#Single-Number" class="headerlink" title="Single Number"></a>Single Number</h2><p>Given a <strong>non-empty</strong> array of integers, every element appears <em>twice</em> except for one. Find that single one.</p>
 <p><strong>Note:</strong></p>
 <p>Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?</p>
 <p><strong>Example 1:</strong></p>
@@ -16,7 +15,7 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [4,1,2,1,2]</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>题目要求分析：给定非空数组，找到单独出现的元素。</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定非空数组，找到单独出现的元素。</p>
 <ul>
 <li><p>时间复杂度：O(n)</p>
 </li>
@@ -32,7 +31,6 @@
 </ul>
 <p>结合题目给出除了目标元素外，其余元素各出现两次，不难想到遍历整个数组，逐个将元素进行异或运算，最后剩下的元素即为目标。</p>
 <hr>
-<p>Solution</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums) res ^= n;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
@@ -51,14 +49,13 @@
     <url>/2020/04/04/leetcode-day-2/</url>
     <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-2"><a href="#LeetCode-30-days-Challenge-Day-2" class="headerlink" title="LeetCode 30 days Challenge - Day 2"></a>LeetCode 30 days Challenge - Day 2</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
 <hr>
-<p>Happy Number</p>
-<p>Write an algorithm to determine if a number is “happy”.</p>
+<h2 id="Happy-Number"><a href="#Happy-Number" class="headerlink" title="Happy Number"></a>Happy Number</h2><p>Write an algorithm to determine if a number is “happy”.</p>
 <p>A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.</p>
 <p><strong>Example:</strong> </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 19</span><br><span class="line">Output: true</span><br><span class="line">Explanation: </span><br><span class="line">1^2 + 9^2 &#x3D; 82</span><br><span class="line">8^2 + 2^2 &#x3D; 68</span><br><span class="line">6^2 + 8^2 &#x3D; 100</span><br><span class="line">1^2 + 0^2 + 0^2 &#x3D; 1</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>题目要求分析：给定一个整数，将该整数每一位平方加和得到新的整数，重复直到整数为1或出现循环。</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整数，将该整数每一位平方加和得到新的整数，重复直到整数为1或出现循环。</p>
 <p>解法：</p>
 <p>快慢指针：遇到出现循环情况的题目，可以考虑快慢指针的方法：</p>
 <ul>
@@ -67,7 +64,6 @@
 </ul>
 <p>在若干次迭代后，如果存在循环，快慢指针会指向同一值，此时退出循环即可。</p>
 <hr>
-<p>Solution</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">get_pow</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (n) &#123;</span><br><span class="line">            tmp += (n % <span class="number">10</span>) * (n % <span class="number">10</span>);</span><br><span class="line">            n /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isHappy</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">int</span> slow = n, fast = n;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            slow = get_pow(slow);</span><br><span class="line">            fast = get_pow(fast);</span><br><span class="line">            fast = get_pow(fast);</span><br><span class="line">        &#125; <span class="keyword">while</span> (slow != fast);</span><br><span class="line">        <span class="keyword">return</span> (slow == <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <hr>
@@ -86,16 +82,14 @@
     <url>/2020/04/04/leetcode-day-3/</url>
     <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-3"><a href="#LeetCode-30-days-Challenge-Day-3" class="headerlink" title="LeetCode 30 days Challenge - Day 3"></a>LeetCode 30 days Challenge - Day 3</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
 <hr>
-<p>Maximum Subarray</p>
-<p>Solution</p>
-<p>Given an integer array <code>nums</code>, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
+<h2 id="Maximum-Subarray"><a href="#Maximum-Subarray" class="headerlink" title="Maximum Subarray"></a>Maximum Subarray</h2><p>Given an integer array <code>nums</code>, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
 <p><strong>Example:</strong></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: [4,-1,2,1] has the largest sum &#x3D; 6.</span><br></pre></td></tr></table></figure>
 
 <p><strong>Follow up:</strong></p>
 <p>If you have figured out the O(<em>n</em>) solution, try coding another solution using the divide and conquer approach, which is more subtle.</p>
 <hr>
-<p>题目要求分析：给定一个整型数组，找到其中连续和最大的子数组。</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整型数组，找到其中连续和最大的子数组。</p>
 <blockquote>
 <p>本题是算法导论原题，可以参考原书，以加深理解。</p>
 </blockquote>
@@ -139,6 +133,42 @@
 
 <hr>
 <p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3285/" target="_blank" rel="noopener">Maximum Subarray</a></p>
+<p>Karl</p>
+]]></content>
+      <categories>
+        <category>Algorithms</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-4</title>
+    <url>/2020/04/06/leetcode-day-4/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-4"><a href="#LeetCode-30-days-Challenge-Day-4" class="headerlink" title="LeetCode 30 days Challenge - Day 4"></a>LeetCode 30 days Challenge - Day 4</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Move-Zeroes"><a href="#Move-Zeroes" class="headerlink" title="Move Zeroes"></a>Move Zeroes</h2><p>Given an array <code>nums</code>, write a function to move all <code>0</code>‘s to the end of it while maintaining the relative order of the non-zero elements.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [0,1,0,3,12]</span><br><span class="line">Output: [1,3,12,0,0]</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong>:</p>
+<ol>
+<li>You must do this <strong>in-place</strong> without making a copy of the array.</li>
+<li>Minimize the total number of operations.</li>
+</ol>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整型数组，将所有非0元素移到数组的前部，并保持相对顺序不变。</p>
+<p>解法：</p>
+<p>双指针：遇到对数组中元素进行原地操作(in-place)的时候，双指针往往是很好的方法。</p>
+<p>本题可以设计两个指针：</p>
+<ul>
+<li>i：记录当前处理到的位置，若当前位置为非0元素，则交换移动到前部，是0则跳过。</li>
+<li>j：记录下一个交换位置，从左到右增长，保证非0元素全部在数组的前部。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">moveZeroes</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">-1</span>;</span><br><span class="line">    <span class="comment">// 注意 &amp;&amp; 是会提前截断的，若nums[i] == 0，j不会增长</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i&lt;nums.size(); i++) <span class="keyword">if</span> (nums[i] != <span class="number">0</span> &amp;&amp; i != ++j) &#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = nums[i];</span><br><span class="line">        nums[i] = nums[j];</span><br><span class="line">        nums[j] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3286/" target="_blank" rel="noopener">Move Zeroes</a></p>
 <p>Karl</p>
 ]]></content>
       <categories>
