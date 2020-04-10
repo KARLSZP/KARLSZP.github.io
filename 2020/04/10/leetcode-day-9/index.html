@@ -22,14 +22,19 @@
     var CONFIG = {"hostname":"karlszp.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Karl&#39;s Nest">
-<meta property="og:url" content="https://karlszp.github.io/archives/2020/04/index.html">
+  <meta name="description" content="Day-9 Backspace String Compare">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode-day-9">
+<meta property="og:url" content="https://karlszp.github.io/2020/04/10/leetcode-day-9/index.html">
 <meta property="og:site_name" content="Karl&#39;s Nest">
+<meta property="og:description" content="Day-9 Backspace String Compare">
+<meta property="article:published_time" content="2020-04-10T04:25:30.000Z">
+<meta property="article:modified_time" content="2020-04-10T04:34:31.136Z">
 <meta property="article:author" content="Karl Szp">
+<meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://karlszp.github.io/archives/2020/04/">
+<link rel="canonical" href="https://karlszp.github.io/2020/04/10/leetcode-day-9/">
 
 
 <script id="page-configurations">
@@ -37,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-Hans'
   };
 </script>
 
-  <title>Archive | Karl's Nest</title>
+  <title>leetcode-day-9 | Karl's Nest</title>
   
 
 
@@ -186,210 +191,137 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">Um..! 9 posts in total. Keep on posting.</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://karlszp.github.io/2020/04/10/leetcode-day-9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Karl Szp">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Nest">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          leetcode-day-9
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-10 12:25:30 / Modified: 12:34:31" itemprop="dateCreated datePublished" datetime="2020-04-10T12:25:30+08:00">2020-04-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithms/" itemprop="url" rel="index"><span itemprop="name">Algorithms</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">Day-9 Backspace String Compare</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
+        <h1 id="LeetCode-30-days-Challenge-Day-9"><a href="#LeetCode-30-days-Challenge-Day-9" class="headerlink" title="LeetCode 30 days Challenge - Day 9"></a>LeetCode 30 days Challenge - Day 9</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Backspace-String-Compare"><a href="#Backspace-String-Compare" class="headerlink" title="Backspace String Compare"></a>Backspace String Compare</h2><p>Given two strings <code>S</code> and <code>T</code>, return if they are equal when both are typed into empty text editors. <code>#</code> means a backspace character.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;ab#c&quot;, T &#x3D; &quot;ad#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;ac&quot;.</span><br></pre></td></tr></table></figure>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;ab##&quot;, T &#x3D; &quot;c#d#&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;&quot;.</span><br></pre></td></tr></table></figure>
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-10T12:25:30+08:00"
-              content="2020-04-10">
-          04-10
-        </time>
-      </div>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;a##c&quot;, T &#x3D; &quot;#a#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;c&quot;.</span><br></pre></td></tr></table></figure>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/10/leetcode-day-9/" itemprop="url">
-            <span itemprop="name">leetcode-day-9</span>
-          </a>
-      </div>
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;a#c&quot;, T &#x3D; &quot;b&quot;</span><br><span class="line">Output: false</span><br><span class="line">Explanation: S becomes &quot;c&quot; while T becomes &quot;b&quot;.</span><br></pre></td></tr></table></figure>
 
-    </header>
-  </article>
+<p><strong>Note</strong>:</p>
+<ol>
+<li><code>1 &lt;= S.length &lt;= 200</code></li>
+<li><code>1 &lt;= T.length &lt;= 200</code></li>
+<li><code>S</code> and <code>T</code> only contain lowercase letters and <code>&#39;#&#39;</code> characters.</li>
+</ol>
+<p><strong>Follow up:</strong></p>
+<ul>
+<li>Can you solve it in <code>O(N)</code> time and <code>O(1)</code> space?</li>
+</ul>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定两个字符串，其中“#”号表示一个退格，要求判断处理完退格操作后两个字符串是否相同。</p>
+<p>解法：</p>
+<p>本题是栈结构的经典应用，以下分析模拟操作的原则：</p>
+<ol>
+<li>遍历字符串，遇到不为退格“#”的字符，压栈。</li>
+<li>遇到退格“#”时：<ol>
+<li>若栈为空，忽略（空字符串怎么进行退格依然为空）。</li>
+<li>反之，将栈顶元素退栈（相当于退格当前字符串的最后一个字符）。</li>
+</ol>
+</li>
+<li>对两个字符串处理完成后，依次退栈比较：<ol>
+<li>遇到不相同的字符，则返回<code>false</code>。</li>
+<li>比较到栈空，返回<code>true</code>。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">backspaceCompare</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">string</span> T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">char</span>&gt; s, t;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : S) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'#'</span> &amp;&amp; !s.empty()) s.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c != <span class="string">'#'</span>) s.push(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : T) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'#'</span> &amp;&amp; !t.empty()) t.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c != <span class="string">'#'</span>) t.push(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!s.empty() &amp;&amp; !t.empty()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (s.top() != t.top()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        s.pop(); t.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (s.empty() &amp;&amp; t.empty());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-08T21:24:26+08:00"
-              content="2020-04-08">
-          04-08
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/08/leetcode-day-8/" itemprop="url">
-            <span itemprop="name">leetcode-day-8</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-07T17:25:50+08:00"
-              content="2020-04-07">
-          04-07
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/07/leetcode-day-7/" itemprop="url">
-            <span itemprop="name">leetcode-day-7</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-06T17:26:36+08:00"
-              content="2020-04-06">
-          04-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/06/leetcode-day-6/" itemprop="url">
-            <span itemprop="name">leetcode-day-6</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-06T16:46:50+08:00"
-              content="2020-04-06">
-          04-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/06/leetcode-day-5/" itemprop="url">
-            <span itemprop="name">leetcode-day-5</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-06T16:25:17+08:00"
-              content="2020-04-06">
-          04-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/06/leetcode-day-4/" itemprop="url">
-            <span itemprop="name">leetcode-day-4</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-04T23:00:23+08:00"
-              content="2020-04-04">
-          04-04
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/04/leetcode-day-3/" itemprop="url">
-            <span itemprop="name">leetcode-day-3</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-04T18:08:52+08:00"
-              content="2020-04-04">
-          04-04
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/04/leetcode-day-2/" itemprop="url">
-            <span itemprop="name">leetcode-day-2</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-04T15:28:36+08:00"
-              content="2020-04-04">
-          04-04
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/04/leetcode-day-1/" itemprop="url">
-            <span itemprop="name">leetcode-day-1</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3291/" target="_blank" rel="noopener">Backspace String Compare</a></p>
+<p>Karl</p>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/08/leetcode-day-8/" rel="prev" title="leetcode-day-8">
+      <i class="fa fa-chevron-left"></i> leetcode-day-8
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
@@ -442,6 +374,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode-30-days-Challenge-Day-9"><span class="nav-number">1.</span> <span class="nav-text">LeetCode 30 days Challenge - Day 9</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Backspace-String-Compare"><span class="nav-number">1.1.</span> <span class="nav-text">Backspace String Compare</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.2.</span> <span class="nav-text">Solution</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

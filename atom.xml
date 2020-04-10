@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://karlszp.github.io/"/>
-  <updated>2020-04-08T13:33:33.087Z</updated>
+  <updated>2020-04-10T04:34:31.136Z</updated>
   <id>https://karlszp.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode-day-9</title>
+    <link href="https://karlszp.github.io/2020/04/10/leetcode-day-9/"/>
+    <id>https://karlszp.github.io/2020/04/10/leetcode-day-9/</id>
+    <published>2020-04-10T04:25:30.000Z</published>
+    <updated>2020-04-10T04:34:31.136Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-9"><a href="#LeetCode-30-days-Challenge-Day-9" class="headerlink" title="LeetCode 30 days Challenge - Day 9"></a>LeetCode 30 days Challenge - Day 9</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Backspace-String-Compare"><a href="#Backspace-String-Compare" class="headerlink" title="Backspace String Compare"></a>Backspace String Compare</h2><p>Given two strings <code>S</code> and <code>T</code>, return if they are equal when both are typed into empty text editors. <code>#</code> means a backspace character.</p><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;ab#c&quot;, T &#x3D; &quot;ad#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;ac&quot;.</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;ab##&quot;, T &#x3D; &quot;c#d#&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;&quot;.</span><br></pre></td></tr></table></figure><p><strong>Example 3:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;a##c&quot;, T &#x3D; &quot;#a#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;c&quot;.</span><br></pre></td></tr></table></figure><p><strong>Example 4:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;a#c&quot;, T &#x3D; &quot;b&quot;</span><br><span class="line">Output: false</span><br><span class="line">Explanation: S becomes &quot;c&quot; while T becomes &quot;b&quot;.</span><br></pre></td></tr></table></figure><p><strong>Note</strong>:</p><ol><li><code>1 &lt;= S.length &lt;= 200</code></li><li><code>1 &lt;= T.length &lt;= 200</code></li><li><code>S</code> and <code>T</code> only contain lowercase letters and <code>&#39;#&#39;</code> characters.</li></ol><p><strong>Follow up:</strong></p><ul><li>Can you solve it in <code>O(N)</code> time and <code>O(1)</code> space?</li></ul><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定两个字符串，其中“#”号表示一个退格，要求判断处理完退格操作后两个字符串是否相同。</p><p>解法：</p><p>本题是栈结构的经典应用，以下分析模拟操作的原则：</p><ol><li>遍历字符串，遇到不为退格“#”的字符，压栈。</li><li>遇到退格“#”时：<ol><li>若栈为空，忽略（空字符串怎么进行退格依然为空）。</li><li>反之，将栈顶元素退栈（相当于退格当前字符串的最后一个字符）。</li></ol></li><li>对两个字符串处理完成后，依次退栈比较：<ol><li>遇到不相同的字符，则返回<code>false</code>。</li><li>比较到栈空，返回<code>true</code>。</li></ol></li></ol><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">backspaceCompare</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">string</span> T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">char</span>&gt; s, t;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : S) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'#'</span> &amp;&amp; !s.empty()) s.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c != <span class="string">'#'</span>) s.push(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : T) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'#'</span> &amp;&amp; !t.empty()) t.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c != <span class="string">'#'</span>) t.push(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!s.empty() &amp;&amp; !t.empty()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (s.top() != t.top()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        s.pop(); t.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (s.empty() &amp;&amp; t.empty());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3291/" target="_blank" rel="noopener">Backspace String Compare</a></p><p>Karl</p>]]></content>
+    
+    <summary type="html">
+    
+      Day-9 Backspace String Compare
+    
+    </summary>
+    
+    
+      <category term="Algorithms" scheme="https://KARLSZP.github.io/categories/Algorithms/"/>
+    
+    
+      <category term="LeetCode" scheme="https://KARLSZP.github.io/tags/LeetCode/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode-day-8</title>
