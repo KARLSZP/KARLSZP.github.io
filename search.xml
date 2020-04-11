@@ -477,4 +477,43 @@
         <tag>LeetCode</tag>
       </tags>
   </entry>
+  <entry>
+    <title>leetcode-day-11</title>
+    <url>/2020/04/11/leetcode-day-11/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-11"><a href="#LeetCode-30-days-Challenge-Day-11" class="headerlink" title="LeetCode 30 days Challenge - Day 11"></a>LeetCode 30 days Challenge - Day 11</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Diameter-of-Binary-Tree"><a href="#Diameter-of-Binary-Tree" class="headerlink" title="Diameter of Binary Tree"></a>Diameter of Binary Tree</h2><p>Given a binary tree, you need to compute the length of the diameter of the tree. The diameter of a binary tree is the length of the <strong>longest</strong> path between any two nodes in a tree. This path may or may not pass through the root.</p>
+<p><strong>Example:</strong><br>Given a binary tree</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    1</span><br><span class="line">   &#x2F; \</span><br><span class="line">  2   3</span><br><span class="line"> &#x2F; \     </span><br><span class="line">4   5</span><br></pre></td></tr></table></figure>
+
+<p>Return <strong>3</strong>, which is the length of the path [4,2,1,3] or [5,2,1,3].</p>
+<p><strong>Note:</strong> The length of path between two nodes is represented by the number of edges between them.</p>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一棵二叉树，要求找到它的直径。二叉树直径定义为其中距离最远的两个节点之间的距离。</p>
+<p>解法：</p>
+<p>由题，我们知道直径不一定经过当前树的根结点。</p>
+<p>因此，对以当前结点为根结点的（子）树，根据是否经过其根结点，可以分为两种情况，递归思想如下：</p>
+<ol>
+<li>对于非空结点，计算：<ol>
+<li>左子树的深度 + 右子树的深度 = <strong>经过</strong>当前结点的最长距离；</li>
+<li>左子树的直径（递归，不经过根结点）；</li>
+<li>右子树的直径（递归，不经过根结点）；</li>
+</ol>
+</li>
+<li>对以上三值，取最大值即为以当前结点为根的二叉树的直径。</li>
+</ol>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getdepth</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> + max(getdepth(root-&gt;left), getdepth(root-&gt;right));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">diameterOfBinaryTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> cur = getdepth(root-&gt;left) + getdepth(root-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> max(cur, max(diameterOfBinaryTree(root-&gt;left), diameterOfBinaryTree(root-&gt;right)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3293/" target="_blank" rel="noopener">Diameter of Binary Tree</a></p>
+<p>Karl</p>
+]]></content>
+      <categories>
+        <category>Algorithms</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
 </search>
