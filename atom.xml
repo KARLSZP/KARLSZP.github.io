@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://karlszp.github.io/"/>
-  <updated>2020-04-11T08:47:08.308Z</updated>
+  <updated>2020-04-12T08:33:40.057Z</updated>
   <id>https://karlszp.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode-day-12</title>
+    <link href="https://karlszp.github.io/2020/04/12/leetcode-day-12/"/>
+    <id>https://karlszp.github.io/2020/04/12/leetcode-day-12/</id>
+    <published>2020-04-12T08:33:12.000Z</published>
+    <updated>2020-04-12T08:33:40.057Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-12"><a href="#LeetCode-30-days-Challenge-Day-12" class="headerlink" title="LeetCode 30 days Challenge - Day 12"></a>LeetCode 30 days Challenge - Day 12</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Last-Stone-Weight"><a href="#Last-Stone-Weight" class="headerlink" title="Last Stone Weight"></a>Last Stone Weight</h2><p>We have a collection of stones, each stone has a positive integer weight.</p><p>Each turn, we choose the two <strong>heaviest</strong> stones and smash them together. Suppose the stones have weights <code>x</code> and <code>y</code> with <code>x &lt;= y</code>. The result of this smash is:</p><ul><li>If <code>x == y</code>, both stones are totally destroyed;</li><li>If <code>x != y</code>, the stone of weight <code>x</code> is totally destroyed, and the stone of weight <code>y</code> has new weight <code>y-x</code>.</li></ul><p>At the end, there is at most 1 stone left. Return the weight of this stone (or 0 if there are no stones left.)</p><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: [2,7,4,1,8,1]</span><br><span class="line">Output: 1</span><br><span class="line">Explanation: </span><br><span class="line">We combine 7 and 8 to get 1 so the array converts to [2,4,1,1,1] then,</span><br><span class="line">we combine 2 and 4 to get 2 so the array converts to [2,1,1,1] then,</span><br><span class="line">we combine 2 and 1 to get 1 so the array converts to [1,1,1] then,</span><br><span class="line">we combine 1 and 1 to get 0 so the array converts to [1] then that&#39;s the value of last stone.</span><br></pre></td></tr></table></figure><p><strong>Note:</strong></p><ol><li><code>1 &lt;= stones.length &lt;= 30</code></li><li><code>1 &lt;= stones[i] &lt;= 1000</code></li></ol><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整形数组，每个值代表一颗石子的质量。每次选取质量最大的两颗石子（如果存在至少两颗石子），若两颗石子质量相等，则进行下一次选取；否则，将一颗质量为它们的质量差的石子加入数组中。</p><p>解法：</p><p>简单进行模拟，重点注意每次需要选取质量最大的两颗，而且新加入石子后影响原有顺序，考虑使用大顶堆进行存储，作者采用的是STL中大顶堆实现的优先队列<code>&lt;priority_queue&gt;</code>。</p><p>确定了储存结构，模拟操作如下：</p><ol><li>首先遍历数组，将“石子”加入优先队列。</li><li>根据题目要求，当剩余石子为1颗或0颗时，结束循环，否则：<ol><li>取队首元素，赋值给y，并将之出队；</li><li>再次取队首元素，赋值给x，并将之出队；</li><li>由于是优先队列，y &gt;= x，因此只需比较x是否与y相等：<ol><li>相等：不进行操作，相当于两颗石子抵消了。</li><li>不相等：将质量差值y-x加入优先队列。</li></ol></li></ol></li><li>最后判断队列是否为空即可，</li></ol><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lastStoneWeight</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; stones)</span> </span>&#123;</span><br><span class="line">    priority_queue&lt;<span class="keyword">int</span>&gt; pq;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i : stones) pq.push(i);</span><br><span class="line">    <span class="keyword">while</span> (pq.size() &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> y = pq.top(); pq.pop();</span><br><span class="line">        <span class="keyword">int</span> x = pq.top(); pq.pop();</span><br><span class="line">        <span class="keyword">if</span> (x != y) pq.push(y - x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pq.empty() ? <span class="number">0</span> : pq.top();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3297/" target="_blank" rel="noopener">Last Stone Weight</a></p><p>Karl</p>]]></content>
+    
+    <summary type="html">
+    
+      Day-12 Last Stone Weight
+    
+    </summary>
+    
+    
+      <category term="Algorithms" scheme="https://KARLSZP.github.io/categories/Algorithms/"/>
+    
+    
+      <category term="LeetCode" scheme="https://KARLSZP.github.io/tags/LeetCode/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode-day-11</title>
