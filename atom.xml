@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://karlszp.github.io/"/>
-  <updated>2020-04-12T08:33:40.057Z</updated>
+  <updated>2020-04-13T08:05:31.938Z</updated>
   <id>https://karlszp.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode-day-13</title>
+    <link href="https://karlszp.github.io/2020/04/13/leetcode-day-13/"/>
+    <id>https://karlszp.github.io/2020/04/13/leetcode-day-13/</id>
+    <published>2020-04-13T08:04:47.000Z</published>
+    <updated>2020-04-13T08:05:31.938Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-13"><a href="#LeetCode-30-days-Challenge-Day-13" class="headerlink" title="LeetCode 30 days Challenge - Day 13"></a>LeetCode 30 days Challenge - Day 13</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Contiguous-Array"><a href="#Contiguous-Array" class="headerlink" title="Contiguous Array"></a>Contiguous Array</h2><p>Given a binary array, find the maximum length of a contiguous subarray with equal number of 0 and 1.</p><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [0,1]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: [0, 1] is the longest contiguous subarray with equal number of 0 and 1.</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [0,1,0]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.</span><br></pre></td></tr></table></figure><p><strong>Note:</strong> The length of the given binary array will not exceed 50,000.</p><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个只包含0或1的数组，求满足条件（子数组中0和1数量相等）的最长连续子数组的长度。</p><p>解法：</p><p>本题关键是遍历数组，确保不漏掉符合条件的子数组，并更新最大长度。</p><p>这里为了减少空间复杂度，使用哈希结构建立count（初始为0，遇0减1，遇1加1）到pos（count第一次出现的位置）的映射：</p><ol><li>初始化res为最大长度，count为当前1和0的个数差，负数表示0比1多。</li><li>建立映射，初始化<code>m[0] = -1</code>的意义是：无论第一个元素是0还是1，count都将变为非0，因此，count=0首次出现的位置实际上是<code>-1</code>处（不存在，只是虚拟出一个位置，以保证当最长子数组包含第一个元素的时候，能正确计算长度）。</li><li>在遍历过程中：<ol><li>当<code>m.find(count) == m.end()</code>即新的count值首次出现，记录其位置。</li><li>反之，更新res为较大值。</li></ol></li></ol><p>以下提供参考图片供读者理解：</p><p><img src="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/Figures/535_Contiguous_Array.PNG" alt=""></p><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findMaxLength</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>, count = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m;</span><br><span class="line">    m[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size(); i++) &#123;</span><br><span class="line">        count += nums[i] ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">if</span> (m.find(count) == m.end()) m[count] = i;</span><br><span class="line">        <span class="keyword">else</span> res = max(res, i - m[count]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3298/" target="_blank" rel="noopener">Contiguous Array</a></p><p>Karl</p>]]></content>
+    
+    <summary type="html">
+    
+      Day-13 Contiguous Array
+    
+    </summary>
+    
+    
+      <category term="Algorithms" scheme="https://KARLSZP.github.io/categories/Algorithms/"/>
+    
+    
+      <category term="LeetCode" scheme="https://KARLSZP.github.io/tags/LeetCode/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode-day-12</title>
