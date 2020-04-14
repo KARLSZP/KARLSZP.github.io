@@ -22,19 +22,19 @@
     var CONFIG = {"hostname":"karlszp.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Day-9 Backspace String Compare">
+  <meta name="description" content="Day-14 Perform String Shifts">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode-day-9">
-<meta property="og:url" content="https://karlszp.github.io/2020/04/10/leetcode-day-9/index.html">
+<meta property="og:title" content="leetcode-day-14">
+<meta property="og:url" content="https://karlszp.github.io/2020/04/14/leetcode-day-14/index.html">
 <meta property="og:site_name" content="Karl&#39;s Nest">
-<meta property="og:description" content="Day-9 Backspace String Compare">
-<meta property="article:published_time" content="2020-04-10T04:25:30.000Z">
-<meta property="article:modified_time" content="2020-04-10T04:34:31.136Z">
+<meta property="og:description" content="Day-14 Perform String Shifts">
+<meta property="article:published_time" content="2020-04-14T14:47:45.000Z">
+<meta property="article:modified_time" content="2020-04-14T15:10:26.352Z">
 <meta property="article:author" content="Karl Szp">
 <meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://karlszp.github.io/2020/04/10/leetcode-day-9/">
+<link rel="canonical" href="https://karlszp.github.io/2020/04/14/leetcode-day-14/">
 
 
 <script id="page-configurations">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>leetcode-day-9 | Karl's Nest</title>
+  <title>leetcode-day-14 | Karl's Nest</title>
   
 
 
@@ -198,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://karlszp.github.io/2020/04/10/leetcode-day-9/">
+    <link itemprop="mainEntityOfPage" href="https://karlszp.github.io/2020/04/14/leetcode-day-14/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -211,7 +211,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          leetcode-day-9
+          leetcode-day-14
         </h1>
 
         <div class="post-meta">
@@ -222,7 +222,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-10 12:25:30 / Modified: 12:34:31" itemprop="dateCreated datePublished" datetime="2020-04-10T12:25:30+08:00">2020-04-10</time>
+              <time title="Created: 2020-04-14 22:47:45 / Modified: 23:10:26" itemprop="dateCreated datePublished" datetime="2020-04-14T22:47:45+08:00">2020-04-14</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,7 +235,7 @@
             </span>
 
           
-            <div class="post-description">Day-9 Backspace String Compare</div>
+            <div class="post-description">Day-14 Perform String Shifts</div>
 
         </div>
       </header>
@@ -246,53 +246,51 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="LeetCode-30-days-Challenge-Day-9"><a href="#LeetCode-30-days-Challenge-Day-9" class="headerlink" title="LeetCode 30 days Challenge - Day 9"></a>LeetCode 30 days Challenge - Day 9</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+        <h1 id="LeetCode-30-days-Challenge-Day-14"><a href="#LeetCode-30-days-Challenge-Day-14" class="headerlink" title="LeetCode 30 days Challenge - Day 14"></a>LeetCode 30 days Challenge - Day 14</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
 <hr>
-<h2 id="Backspace-String-Compare"><a href="#Backspace-String-Compare" class="headerlink" title="Backspace String Compare"></a>Backspace String Compare</h2><p>Given two strings <code>S</code> and <code>T</code>, return if they are equal when both are typed into empty text editors. <code>#</code> means a backspace character.</p>
+<h2 id="Perform-String-Shifts"><a href="#Perform-String-Shifts" class="headerlink" title="Perform String Shifts"></a>Perform String Shifts</h2><p>You are given a string <code>s</code> containing lowercase English letters, and a matrix <code>shift</code>, where <code>shift[i] = [direction, amount]</code>:</p>
+<ul>
+<li><code>direction</code> can be <code>0</code> (for left shift) or <code>1</code> (for right shift). </li>
+<li><code>amount</code> is the amount by which string <code>s</code> is to be shifted.</li>
+<li>A left shift by 1 means remove the first character of <code>s</code> and append it to the end.</li>
+<li>Similarly, a right shift by 1 means remove the last character of <code>s</code> and add it to the beginning.</li>
+</ul>
+<p>Return the final string after all operations.</p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;ab#c&quot;, T &#x3D; &quot;ad#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;ac&quot;.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: s &#x3D; &quot;abc&quot;, shift &#x3D; [[0,1],[1,2]]</span><br><span class="line">Output: &quot;cab&quot;</span><br><span class="line">Explanation: </span><br><span class="line">[0,1] means shift to left by 1. &quot;abc&quot; -&gt; &quot;bca&quot;</span><br><span class="line">[1,2] means shift to right by 2. &quot;bca&quot; -&gt; &quot;cab&quot;</span><br></pre></td></tr></table></figure>
 
 <p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;ab##&quot;, T &#x3D; &quot;c#d#&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;&quot;.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: s &#x3D; &quot;abcdefg&quot;, shift &#x3D; [[1,1],[1,1],[0,2],[1,3]]</span><br><span class="line">Output: &quot;efgabcd&quot;</span><br><span class="line">Explanation:  </span><br><span class="line">[1,1] means shift to right by 1. &quot;abcdefg&quot; -&gt; &quot;gabcdef&quot;</span><br><span class="line">[1,1] means shift to right by 1. &quot;gabcdef&quot; -&gt; &quot;fgabcde&quot;</span><br><span class="line">[0,2] means shift to left by 2. &quot;fgabcde&quot; -&gt; &quot;abcdefg&quot;</span><br><span class="line">[1,3] means shift to right by 3. &quot;abcdefg&quot; -&gt; &quot;efgabcd&quot;</span><br></pre></td></tr></table></figure>
 
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;a##c&quot;, T &#x3D; &quot;#a#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;c&quot;.</span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 4:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;a#c&quot;, T &#x3D; &quot;b&quot;</span><br><span class="line">Output: false</span><br><span class="line">Explanation: S becomes &quot;c&quot; while T becomes &quot;b&quot;.</span><br></pre></td></tr></table></figure>
-
-<p><strong>Note</strong>:</p>
-<ol>
-<li><code>1 &lt;= S.length &lt;= 200</code></li>
-<li><code>1 &lt;= T.length &lt;= 200</code></li>
-<li><code>S</code> and <code>T</code> only contain lowercase letters and <code>&#39;#&#39;</code> characters.</li>
-</ol>
-<p><strong>Follow up:</strong></p>
+<p><strong>Constraints:</strong></p>
 <ul>
-<li>Can you solve it in <code>O(N)</code> time and <code>O(1)</code> space?</li>
+<li><code>1 &lt;= s.length &lt;= 100</code></li>
+<li><code>s</code> only contains lower case English letters.</li>
+<li><code>1 &lt;= shift.length &lt;= 100</code></li>
+<li><code>shift[i].length == 2</code></li>
+<li><code>0 &lt;= shift[i][0] &lt;= 1</code></li>
+<li><code>0 &lt;= shift[i][1] &lt;= 100</code></li>
 </ul>
 <hr>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定两个字符串，其中“#”号表示一个退格，要求判断处理完退格操作后两个字符串是否相同。</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个原始字符串以及一个位移指令集合shift，shift数组中，每个元素是一个二元组，依次表示对字符串进行的位移操作方向以及位数，要求返回最后处理完成的字符串。</p>
 <p>解法：</p>
-<p>本题是栈结构的经典应用，以下分析模拟操作的原则：</p>
+<p>本题提示中，说明了在限制条件下，直接暴力模拟也能通过，但这肯定不是我们想要的答案，为了尽可能减少“移动”操作，先来分析移动操作的特点：</p>
 <ol>
-<li>遍历字符串，遇到不为退格“#”的字符，压栈。</li>
-<li>遇到退格“#”时：<ol>
-<li>若栈为空，忽略（空字符串怎么进行退格依然为空）。</li>
-<li>反之，将栈顶元素退栈（相当于退格当前字符串的最后一个字符）。</li>
+<li>方向0：向左移动amount个元素，实际上是将<code>前amount个元素移动到字符串尾部</code>。</li>
+<li>方向1：向右移动amount个元素，实际上是将<code>后amount个元素移动到字符串头部</code>。</li>
 </ol>
-</li>
-<li>对两个字符串处理完成后，依次退栈比较：<ol>
-<li>遇到不相同的字符，则返回<code>false</code>。</li>
-<li>比较到栈空，返回<code>true</code>。</li>
+<p>两次方向不同、amount相同的移动，将相互抵消：<code>abcd -0,2-&gt; cdab -1,2-&gt; abcd</code>。</p>
+<p>由此，推断出最便利的做法是，先遍历shift数组，记录最终需要移动的步数（final_amount），具体措施：</p>
+<ol>
+<li>遇到方向0，final_amount减去对应amount；</li>
+<li>遇到方向1，final_amount加上对应amount；</li>
 </ol>
-</li>
-</ol>
+<p>最后，根据final_amount的正负（注意对长度取模，长度为n的字符串移动n次将恢复原状），依据移动操作的特点进行处理即可。</p>
 <hr>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">backspaceCompare</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">string</span> T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">char</span>&gt; s, t;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : S) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'#'</span> &amp;&amp; !s.empty()) s.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c != <span class="string">'#'</span>) s.push(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : T) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'#'</span> &amp;&amp; !t.empty()) t.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c != <span class="string">'#'</span>) t.push(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!s.empty() &amp;&amp; !t.empty()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (s.top() != t.top()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        s.pop(); t.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (s.empty() &amp;&amp; t.empty());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">stringShift</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; shift)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">string</span> res = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">int</span> final_amount = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v : shift) final_amount += v[<span class="number">0</span>] ? v[<span class="number">1</span>] : -v[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">if</span> (final_amount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        final_amount %= s.length();</span><br><span class="line">        res = s.substr(<span class="number">0</span>, s.length() - final_amount);</span><br><span class="line">        res = s.substr(s.length() - final_amount) + res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        final_amount = (-final_amount) % s.length();</span><br><span class="line">        res = s.substr(final_amount);</span><br><span class="line">        res += s.substr(<span class="number">0</span>, final_amount);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3291/" target="_blank" rel="noopener">Backspace String Compare</a></p>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3299/" target="_blank" rel="noopener">Perform String Shifts</a></p>
 <p>Karl</p>
 
     </div>
@@ -312,13 +310,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/08/leetcode-day-8/" rel="prev" title="leetcode-day-8">
-      <i class="fa fa-chevron-left"></i> leetcode-day-8
+    <a href="/2020/04/13/leetcode-day-13/" rel="prev" title="leetcode-day-13">
+      <i class="fa fa-chevron-left"></i> leetcode-day-13
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/04/10/leetcode-day-10/" rel="next" title="leetcode-day-10">
-      leetcode-day-10 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -377,7 +372,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode-30-days-Challenge-Day-9"><span class="nav-number">1.</span> <span class="nav-text">LeetCode 30 days Challenge - Day 9</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Backspace-String-Compare"><span class="nav-number">1.1.</span> <span class="nav-text">Backspace String Compare</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.2.</span> <span class="nav-text">Solution</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode-30-days-Challenge-Day-14"><span class="nav-number">1.</span> <span class="nav-text">LeetCode 30 days Challenge - Day 14</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Perform-String-Shifts"><span class="nav-number">1.1.</span> <span class="nav-text">Perform String Shifts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.2.</span> <span class="nav-text">Solution</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
