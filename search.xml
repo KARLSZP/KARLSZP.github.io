@@ -1,382 +1,778 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>leetcode-day-16</title>
-      <link href="/2020/04/16/leetcode-day-16/"/>
-      <url>/2020/04/16/leetcode-day-16/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-16"><a href="#LeetCode-30-days-Challenge-Day-16" class="headerlink" title="LeetCode 30 days Challenge - Day 16"></a>LeetCode 30 days Challenge - Day 16</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Valid-Parenthesis-String"><a href="#Valid-Parenthesis-String" class="headerlink" title="Valid Parenthesis String"></a>Valid Parenthesis String</h2><p>Given a string containing only three types of characters: ‘(‘, ‘)’ and ‘*’, write a function to check whether this string is valid. We define the validity of a string by these rules:</p><ol><li>Any left parenthesis <code>&#39;(&#39;</code> must have a corresponding right parenthesis <code>&#39;)&#39;</code>.</li><li>Any right parenthesis <code>&#39;)&#39;</code> must have a corresponding left parenthesis <code>&#39;(&#39;</code>.</li><li>Left parenthesis <code>&#39;(&#39;</code> must go before the corresponding right parenthesis <code>&#39;)&#39;</code>.</li><li><code>&#39;*&#39;</code> could be treated as a single right parenthesis <code>&#39;)&#39;</code> or a single left parenthesis <code>&#39;(&#39;</code> or an empty string.</li><li>An empty string is also valid.</li></ol><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;()&quot;</span><br><span class="line">Output: True</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;(*)&quot;</span><br><span class="line">Output: True</span><br></pre></td></tr></table></figure><p><strong>Example 3:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;(*))&quot;</span><br><span class="line">Output: True</span><br></pre></td></tr></table></figure><p><strong>Note:</strong></p><ol><li>The string size will be in the range [1, 100].</li></ol><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个包含左右圆括号以及星号的字符串，其中星号可以视为左右圆括号或者空字符串，判断该字符串是否符合规范。</p><p>解法：</p><p>本题乍一看像栈结构的经典例题，但本题引入了<code>*</code>号的特殊性，带来了一定难度。</p><p>首先考虑，<code>*</code>的引入带来的影响：</p><ol><li>假若视为 <code>(</code>，那么需要一个额外的 <code>)</code> 进行匹配。</li><li>假若视为 <code>)</code>，那么能额外匹配一个位置在其之前的 <code>(</code> 。</li><li>假若视为空，那么没有影响。</li></ol><p>由于一个符合规范的序列，<code>(</code>往往先于<code>)</code>出现，因此可以考虑 <code>*</code> 的不同取值，对需要的 <code>)</code> 数量的影响。</p><p>假设，最少需要min_num个 <code>)</code>，最多需要max_num个 <code>)</code>，问题转化为 <code>*</code> 的不同取值，对上述两个变量的影响：</p><ol><li>遇到 <code>(</code>：min_num、max_num都增加1，这是显然的。</li><li>遇到 <code>)</code>：<ol><li>max_num减少1，这也是显然的；</li><li>min_num也减少1，但不少于0（右括号只能匹配其左边的左括号，如果min_num减少成负数，相当于之后的右括号匹配了之前的左括号，是不符合常理的）。</li></ol></li><li>遇到 <code>*</code>：<ol><li>因为可以看成一个 <code>(</code>，max_num增加1；</li><li>也可以看成一个 <code>)</code>，min_num也减少1，但不少于0（理由同上）。</li><li>看成空串则不会造成影响。</li></ol></li></ol><p>在遍历过程中，若出现max_num小于0的情况，即出现了一个无法匹配的右括号，直接返回 <code>false</code>。</p><p>最后，因为min_num是最少需要的条件，判断min_num是否为0即可。</p><p>注：本题较难理解的是min_num在遍历过程中不能小于0的原因：小于0则相当于某一个左括号之后的右括号匹配了该左括号，是不符合常理的，这两个括号就是这种情况“ )( ”。</p><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">checkValidString</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> min_num = <span class="number">0</span>, max_num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : s) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'('</span>) &#123;</span><br><span class="line">            min_num++;</span><br><span class="line">            max_num++;                    </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">')'</span>) &#123;</span><br><span class="line">            min_num = max(min_num<span class="number">-1</span>, <span class="number">0</span>);</span><br><span class="line">            max_num--;          </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            min_num = max(min_num<span class="number">-1</span>, <span class="number">0</span>);</span><br><span class="line">            max_num++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (max_num &lt; <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> min_num == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/530/week-3/3301/" target="_blank" rel="noopener">Valid Parenthesis String</a></p><p>Karl</p>]]></content>
-      
-      
+<search>
+  <entry>
+    <title>leetcode-day-1</title>
+    <url>/2020/04/04/leetcode-day-1/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-1"><a href="#LeetCode-30-days-Challenge-Day-1" class="headerlink" title="LeetCode 30 days Challenge - Day 1"></a>LeetCode 30 days Challenge - Day 1</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Single-Number"><a href="#Single-Number" class="headerlink" title="Single Number"></a>Single Number</h2><p>Given a <strong>non-empty</strong> array of integers, every element appears <em>twice</em> except for one. Find that single one.</p>
+<p><strong>Note:</strong></p>
+<p>Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [2,2,1]</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [4,1,2,1,2]</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定非空数组，找到单独出现的元素。</p>
+<ul>
+<li><p>时间复杂度：O(n)</p>
+</li>
+<li><p>空间复杂度：O(1)</p>
+</li>
+</ul>
+<p>解法：</p>
+<p>关键利用异或运算符<code>^</code>，对于异或运算：</p>
+<ul>
+<li>a ^ a == 0</li>
+<li>a ^ 0 == a</li>
+<li>a ^ b ^ c = a ^ c ^ b</li>
+</ul>
+<p>结合题目给出除了目标元素外，其余元素各出现两次，不难想到遍历整个数组，逐个将元素进行异或运算，最后剩下的元素即为目标。</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums) res ^= n;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3283/" target="_blank" rel="noopener">Single Number</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-14</title>
-      <link href="/2020/04/14/leetcode-day-14/"/>
-      <url>/2020/04/14/leetcode-day-14/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-14"><a href="#LeetCode-30-days-Challenge-Day-14" class="headerlink" title="LeetCode 30 days Challenge - Day 14"></a>LeetCode 30 days Challenge - Day 14</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Perform-String-Shifts"><a href="#Perform-String-Shifts" class="headerlink" title="Perform String Shifts"></a>Perform String Shifts</h2><p>You are given a string <code>s</code> containing lowercase English letters, and a matrix <code>shift</code>, where <code>shift[i] = [direction, amount]</code>:</p><ul><li><code>direction</code> can be <code>0</code> (for left shift) or <code>1</code> (for right shift). </li><li><code>amount</code> is the amount by which string <code>s</code> is to be shifted.</li><li>A left shift by 1 means remove the first character of <code>s</code> and append it to the end.</li><li>Similarly, a right shift by 1 means remove the last character of <code>s</code> and add it to the beginning.</li></ul><p>Return the final string after all operations.</p><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: s &#x3D; &quot;abc&quot;, shift &#x3D; [[0,1],[1,2]]</span><br><span class="line">Output: &quot;cab&quot;</span><br><span class="line">Explanation: </span><br><span class="line">[0,1] means shift to left by 1. &quot;abc&quot; -&gt; &quot;bca&quot;</span><br><span class="line">[1,2] means shift to right by 2. &quot;bca&quot; -&gt; &quot;cab&quot;</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: s &#x3D; &quot;abcdefg&quot;, shift &#x3D; [[1,1],[1,1],[0,2],[1,3]]</span><br><span class="line">Output: &quot;efgabcd&quot;</span><br><span class="line">Explanation:  </span><br><span class="line">[1,1] means shift to right by 1. &quot;abcdefg&quot; -&gt; &quot;gabcdef&quot;</span><br><span class="line">[1,1] means shift to right by 1. &quot;gabcdef&quot; -&gt; &quot;fgabcde&quot;</span><br><span class="line">[0,2] means shift to left by 2. &quot;fgabcde&quot; -&gt; &quot;abcdefg&quot;</span><br><span class="line">[1,3] means shift to right by 3. &quot;abcdefg&quot; -&gt; &quot;efgabcd&quot;</span><br></pre></td></tr></table></figure><p><strong>Constraints:</strong></p><ul><li><code>1 &lt;= s.length &lt;= 100</code></li><li><code>s</code> only contains lower case English letters.</li><li><code>1 &lt;= shift.length &lt;= 100</code></li><li><code>shift[i].length == 2</code></li><li><code>0 &lt;= shift[i][0] &lt;= 1</code></li><li><code>0 &lt;= shift[i][1] &lt;= 100</code></li></ul><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个原始字符串以及一个位移指令集合shift，shift数组中，每个元素是一个二元组，依次表示对字符串进行的位移操作方向以及位数，要求返回最后处理完成的字符串。</p><p>解法：</p><p>本题提示中，说明了在限制条件下，直接暴力模拟也能通过，但这肯定不是我们想要的答案，为了尽可能减少“移动”操作，先来分析移动操作的特点：</p><ol><li>方向0：向左移动amount个元素，实际上是将<code>前amount个元素移动到字符串尾部</code>。</li><li>方向1：向右移动amount个元素，实际上是将<code>后amount个元素移动到字符串头部</code>。</li></ol><p>两次方向不同、amount相同的移动，将相互抵消：<code>abcd -0,2-&gt; cdab -1,2-&gt; abcd</code>。</p><p>由此，推断出最便利的做法是，先遍历shift数组，记录最终需要移动的步数（final_amount），具体措施：</p><ol><li>遇到方向0，final_amount减去对应amount；</li><li>遇到方向1，final_amount加上对应amount；</li></ol><p>最后，根据final_amount的正负（注意对长度取模，长度为n的字符串移动n次将恢复原状），依据移动操作的特点进行处理即可。</p><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">stringShift</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; shift)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">string</span> res = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">int</span> final_amount = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v : shift) final_amount += v[<span class="number">0</span>] ? v[<span class="number">1</span>] : -v[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">if</span> (final_amount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        final_amount %= s.length();</span><br><span class="line">        res = s.substr(<span class="number">0</span>, s.length() - final_amount);</span><br><span class="line">        res = s.substr(s.length() - final_amount) + res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        final_amount = (-final_amount) % s.length();</span><br><span class="line">        res = s.substr(final_amount);</span><br><span class="line">        res += s.substr(<span class="number">0</span>, final_amount);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3299/" target="_blank" rel="noopener">Perform String Shifts</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-2</title>
+    <url>/2020/04/04/leetcode-day-2/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-2"><a href="#LeetCode-30-days-Challenge-Day-2" class="headerlink" title="LeetCode 30 days Challenge - Day 2"></a>LeetCode 30 days Challenge - Day 2</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Happy-Number"><a href="#Happy-Number" class="headerlink" title="Happy Number"></a>Happy Number</h2><p>Write an algorithm to determine if a number is “happy”.</p>
+<p>A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.</p>
+<p><strong>Example:</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 19</span><br><span class="line">Output: true</span><br><span class="line">Explanation: </span><br><span class="line">1^2 + 9^2 &#x3D; 82</span><br><span class="line">8^2 + 2^2 &#x3D; 68</span><br><span class="line">6^2 + 8^2 &#x3D; 100</span><br><span class="line">1^2 + 0^2 + 0^2 &#x3D; 1</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整数，将该整数每一位平方加和得到新的整数，重复直到整数为1或出现循环。</p>
+<p>解法：</p>
+<p>快慢指针：遇到出现循环情况的题目，可以考虑快慢指针的方法：</p>
+<ul>
+<li>快指针：一次走2步（在本题中即进行两次运算）。</li>
+<li>慢指针：一次走1步（进行一次运算）。</li>
+</ul>
+<p>在若干次迭代后，如果存在循环，快慢指针会指向同一值，此时退出循环即可。</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">get_pow</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (n) &#123;</span><br><span class="line">            tmp += (n % <span class="number">10</span>) * (n % <span class="number">10</span>);</span><br><span class="line">            n /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isHappy</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">int</span> slow = n, fast = n;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            slow = get_pow(slow);</span><br><span class="line">            fast = get_pow(fast);</span><br><span class="line">            fast = get_pow(fast);</span><br><span class="line">        &#125; <span class="keyword">while</span> (slow != fast);</span><br><span class="line">        <span class="keyword">return</span> (slow == <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3284/" target="_blank" rel="noopener">Happy Number</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-13</title>
-      <link href="/2020/04/13/leetcode-day-13/"/>
-      <url>/2020/04/13/leetcode-day-13/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-13"><a href="#LeetCode-30-days-Challenge-Day-13" class="headerlink" title="LeetCode 30 days Challenge - Day 13"></a>LeetCode 30 days Challenge - Day 13</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Contiguous-Array"><a href="#Contiguous-Array" class="headerlink" title="Contiguous Array"></a>Contiguous Array</h2><p>Given a binary array, find the maximum length of a contiguous subarray with equal number of 0 and 1.</p><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [0,1]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: [0, 1] is the longest contiguous subarray with equal number of 0 and 1.</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [0,1,0]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.</span><br></pre></td></tr></table></figure><p><strong>Note:</strong> The length of the given binary array will not exceed 50,000.</p><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个只包含0或1的数组，求满足条件（子数组中0和1数量相等）的最长连续子数组的长度。</p><p>解法：</p><p>本题关键是遍历数组，确保不漏掉符合条件的子数组，并更新最大长度。</p><p>这里为了减少空间复杂度，使用哈希结构建立count（初始为0，遇0减1，遇1加1）到pos（count第一次出现的位置）的映射：</p><ol><li>初始化res为最大长度，count为当前1和0的个数差，负数表示0比1多。</li><li>建立映射，初始化<code>m[0] = -1</code>的意义是：无论第一个元素是0还是1，count都将变为非0，因此，count=0首次出现的位置实际上是<code>-1</code>处（不存在，只是虚拟出一个位置，以保证当最长子数组包含第一个元素的时候，能正确计算长度）。</li><li>在遍历过程中：<ol><li>当<code>m.find(count) == m.end()</code>即新的count值首次出现，记录其位置。</li><li>反之，更新res为较大值。</li></ol></li></ol><p>以下提供参考图片供读者理解：</p><p><img src="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/Figures/535_Contiguous_Array.PNG" alt=""></p><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findMaxLength</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>, count = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m;</span><br><span class="line">    m[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size(); i++) &#123;</span><br><span class="line">        count += nums[i] ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">if</span> (m.find(count) == m.end()) m[count] = i;</span><br><span class="line">        <span class="keyword">else</span> res = max(res, i - m[count]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3298/" target="_blank" rel="noopener">Contiguous Array</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-3</title>
+    <url>/2020/04/04/leetcode-day-3/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-3"><a href="#LeetCode-30-days-Challenge-Day-3" class="headerlink" title="LeetCode 30 days Challenge - Day 3"></a>LeetCode 30 days Challenge - Day 3</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Maximum-Subarray"><a href="#Maximum-Subarray" class="headerlink" title="Maximum Subarray"></a>Maximum Subarray</h2><p>Given an integer array <code>nums</code>, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: [4,-1,2,1] has the largest sum &#x3D; 6.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Follow up:</strong></p>
+<p>If you have figured out the O(<em>n</em>) solution, try coding another solution using the divide and conquer approach, which is more subtle.</p>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整型数组，找到其中连续和最大的子数组。</p>
+<blockquote>
+<p>本题是算法导论原题，可以参考原书，以加深理解。</p>
+</blockquote>
+<p>解法一（遍历，追踪最大值）：</p>
+<p>维护一个遍历res为最终答案，cur记录当前已经积累的值，当cur &lt; 0时，重置cur为0。</p>
+<p>初次接触者可能有两个问题：</p>
+<ol>
+<li><p>为什么cur小于0才重置，而不是cur变小了就重置？</p>
+<p>cur变小说明加了一个负数，但“迄今为止”，我们所累加的仍是一个正值。</p>
+</li>
+<li><p>能保证完备性吗？</p>
+<p>能。每次cur的更新意味着一个子数组的结束。不妨考虑：</p>
+<p>最坏情况：全是负数的数组，每遍历一个值便更新一次cur，res成功track最大的负数。</p>
+<p>最佳情况：全数组非负，直到结束不会更新cur，res成功track整个数组的和和。</p>
+<p>其他情况：尽可能地以正数为子数组的第一个元素，遇到负数进行“容忍”，直到该子数组和为负，res成功track所有子数组和中最大的一个。</p>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> cur = <span class="number">0</span>, res = nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i : nums) &#123;</span><br><span class="line">        cur += i;</span><br><span class="line">        res = max(cur, res);</span><br><span class="line">        <span class="keyword">if</span> (cur &lt; <span class="number">0</span>) cur = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>解法二（分治法）：</p>
+<p>这个方法是《算法导论》中介绍的，对每一个数组：</p>
+<ol>
+<li>取中点，分成左右两份，数组的最大子数组和可能包括或者不包括中点。</li>
+<li>考虑以下情况：<ol>
+<li>不包括中点，在左边一份：递归地，对左边一份进行求解。</li>
+<li>不包括中点，在右边一份：递归地，对左边一份进行求解。</li>
+<li>包括中点：中点加上左边一份的最大尾部和以及右边一份的最大头部和。</li>
+</ol>
+</li>
+<li>计算上述三种情况，取最大即为所求。</li>
+</ol>
+<p>取题中示例：[-2,1,-3,4,-1,2,1,-5,4]</p>
+<p>取中点 -1, 分为：[-2,1,-3,4],-1, [2,1,-5,4]</p>
+<ol>
+<li>对[-2,1,-3,4]进行求解</li>
+<li>对 [2,1,-5,4]进行求解</li>
+<li>包括-1，左边最大尾部和：4+(-3)+1 = 2，右边最大头部和：2+1 = 3</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 包括中点</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">crossmid</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> l, <span class="keyword">int</span> mid, <span class="keyword">int</span> r)</span> </span>&#123; </span><br><span class="line">    <span class="keyword">int</span> l_res = INT_MIN, r_res = INT_MIN;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cur = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">// 左边最大尾部和</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = mid; i &gt;=l; i--) &#123;</span><br><span class="line">        cur += nums[i];</span><br><span class="line">        <span class="keyword">if</span> (cur &gt; l_res) l_res = cur;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cur = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 右边最大头部和</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = mid+<span class="number">1</span>; i &lt;= r; i++) &#123;</span><br><span class="line">        cur += nums[i];</span><br><span class="line">        <span class="keyword">if</span> (cur &gt; r_res) r_res = cur;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> l_res + r_res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 不包括中点</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">side</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l == r) <span class="keyword">return</span> nums[l];</span><br><span class="line">    <span class="keyword">int</span> mid = (l + r) / <span class="number">2</span>;</span><br><span class="line">    <span class="comment">// 求三者最大值</span></span><br><span class="line">    <span class="keyword">return</span> max(max(side(nums, l, mid), side(nums, mid + <span class="number">1</span>, r)),  crossmid(nums, l, mid, r));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> side(nums, <span class="number">0</span>, nums.size() - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3285/" target="_blank" rel="noopener">Maximum Subarray</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-12</title>
-      <link href="/2020/04/12/leetcode-day-12/"/>
-      <url>/2020/04/12/leetcode-day-12/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-12"><a href="#LeetCode-30-days-Challenge-Day-12" class="headerlink" title="LeetCode 30 days Challenge - Day 12"></a>LeetCode 30 days Challenge - Day 12</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Last-Stone-Weight"><a href="#Last-Stone-Weight" class="headerlink" title="Last Stone Weight"></a>Last Stone Weight</h2><p>We have a collection of stones, each stone has a positive integer weight.</p><p>Each turn, we choose the two <strong>heaviest</strong> stones and smash them together. Suppose the stones have weights <code>x</code> and <code>y</code> with <code>x &lt;= y</code>. The result of this smash is:</p><ul><li>If <code>x == y</code>, both stones are totally destroyed;</li><li>If <code>x != y</code>, the stone of weight <code>x</code> is totally destroyed, and the stone of weight <code>y</code> has new weight <code>y-x</code>.</li></ul><p>At the end, there is at most 1 stone left. Return the weight of this stone (or 0 if there are no stones left.)</p><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: [2,7,4,1,8,1]</span><br><span class="line">Output: 1</span><br><span class="line">Explanation: </span><br><span class="line">We combine 7 and 8 to get 1 so the array converts to [2,4,1,1,1] then,</span><br><span class="line">we combine 2 and 4 to get 2 so the array converts to [2,1,1,1] then,</span><br><span class="line">we combine 2 and 1 to get 1 so the array converts to [1,1,1] then,</span><br><span class="line">we combine 1 and 1 to get 0 so the array converts to [1] then that&#39;s the value of last stone.</span><br></pre></td></tr></table></figure><p><strong>Note:</strong></p><ol><li><code>1 &lt;= stones.length &lt;= 30</code></li><li><code>1 &lt;= stones[i] &lt;= 1000</code></li></ol><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整形数组，每个值代表一颗石子的质量。每次选取质量最大的两颗石子（如果存在至少两颗石子），若两颗石子质量相等，则进行下一次选取；否则，将一颗质量为它们的质量差的石子加入数组中。</p><p>解法：</p><p>简单进行模拟，重点注意每次需要选取质量最大的两颗，而且新加入石子后影响原有顺序，考虑使用大顶堆进行存储，作者采用的是STL中大顶堆实现的优先队列<code>&lt;priority_queue&gt;</code>。</p><p>确定了储存结构，模拟操作如下：</p><ol><li>首先遍历数组，将“石子”加入优先队列。</li><li>根据题目要求，当剩余石子为1颗或0颗时，结束循环，否则：<ol><li>取队首元素，赋值给y，并将之出队；</li><li>再次取队首元素，赋值给x，并将之出队；</li><li>由于是优先队列，y &gt;= x，因此只需比较x是否与y相等：<ol><li>相等：不进行操作，相当于两颗石子抵消了。</li><li>不相等：将质量差值y-x加入优先队列。</li></ol></li></ol></li><li>最后判断队列是否为空即可，</li></ol><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lastStoneWeight</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; stones)</span> </span>&#123;</span><br><span class="line">    priority_queue&lt;<span class="keyword">int</span>&gt; pq;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i : stones) pq.push(i);</span><br><span class="line">    <span class="keyword">while</span> (pq.size() &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> y = pq.top(); pq.pop();</span><br><span class="line">        <span class="keyword">int</span> x = pq.top(); pq.pop();</span><br><span class="line">        <span class="keyword">if</span> (x != y) pq.push(y - x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pq.empty() ? <span class="number">0</span> : pq.top();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3297/" target="_blank" rel="noopener">Last Stone Weight</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-4</title>
+    <url>/2020/04/06/leetcode-day-4/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-4"><a href="#LeetCode-30-days-Challenge-Day-4" class="headerlink" title="LeetCode 30 days Challenge - Day 4"></a>LeetCode 30 days Challenge - Day 4</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Move-Zeroes"><a href="#Move-Zeroes" class="headerlink" title="Move Zeroes"></a>Move Zeroes</h2><p>Given an array <code>nums</code>, write a function to move all <code>0</code>‘s to the end of it while maintaining the relative order of the non-zero elements.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [0,1,0,3,12]</span><br><span class="line">Output: [1,3,12,0,0]</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong>:</p>
+<ol>
+<li>You must do this <strong>in-place</strong> without making a copy of the array.</li>
+<li>Minimize the total number of operations.</li>
+</ol>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整型数组，将所有非0元素移到数组的前部，并保持相对顺序不变。</p>
+<p>解法：</p>
+<p>双指针：遇到对数组中元素进行原地操作(in-place)的时候，双指针往往是很好的方法。</p>
+<p>本题可以设计两个指针：</p>
+<ul>
+<li>i：记录当前处理到的位置，若当前位置为非0元素，则交换移动到前部，是0则跳过。</li>
+<li>j：记录下一个交换位置，从左到右增长，保证非0元素全部在数组的前部。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">moveZeroes</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">-1</span>;</span><br><span class="line">    <span class="comment">// 注意 &amp;&amp; 是会提前截断的，若nums[i] == 0，j不会增长</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i&lt;nums.size(); i++) <span class="keyword">if</span> (nums[i] != <span class="number">0</span> &amp;&amp; i != ++j) &#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = nums[i];</span><br><span class="line">        nums[i] = nums[j];</span><br><span class="line">        nums[j] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3286/" target="_blank" rel="noopener">Move Zeroes</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-11</title>
-      <link href="/2020/04/11/leetcode-day-11/"/>
-      <url>/2020/04/11/leetcode-day-11/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-11"><a href="#LeetCode-30-days-Challenge-Day-11" class="headerlink" title="LeetCode 30 days Challenge - Day 11"></a>LeetCode 30 days Challenge - Day 11</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Diameter-of-Binary-Tree"><a href="#Diameter-of-Binary-Tree" class="headerlink" title="Diameter of Binary Tree"></a>Diameter of Binary Tree</h2><p>Given a binary tree, you need to compute the length of the diameter of the tree. The diameter of a binary tree is the length of the <strong>longest</strong> path between any two nodes in a tree. This path may or may not pass through the root.</p><p><strong>Example:</strong><br>Given a binary tree</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    1</span><br><span class="line">   &#x2F; \</span><br><span class="line">  2   3</span><br><span class="line"> &#x2F; \     </span><br><span class="line">4   5</span><br></pre></td></tr></table></figure><p>Return <strong>3</strong>, which is the length of the path [4,2,1,3] or [5,2,1,3].</p><p><strong>Note:</strong> The length of path between two nodes is represented by the number of edges between them.</p><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一棵二叉树，要求找到它的直径。二叉树直径定义为其中距离最远的两个节点之间的距离。</p><p>解法：</p><p>由题，我们知道直径不一定经过当前树的根结点。</p><p>因此，对以当前结点为根结点的（子）树，根据是否经过其根结点，可以分为两种情况，递归思想如下：</p><ol><li>对于非空结点，计算：<ol><li>左子树的深度 + 右子树的深度 = <strong>经过</strong>当前结点的最长距离；</li><li>左子树的直径（递归，不经过根结点）；</li><li>右子树的直径（递归，不经过根结点）；</li></ol></li><li>对以上三值，取最大值即为以当前结点为根的二叉树的直径。</li></ol><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getdepth</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> + max(getdepth(root-&gt;left), getdepth(root-&gt;right));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">diameterOfBinaryTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> cur = getdepth(root-&gt;left) + getdepth(root-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> max(cur, max(diameterOfBinaryTree(root-&gt;left), diameterOfBinaryTree(root-&gt;right)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3293/" target="_blank" rel="noopener">Diameter of Binary Tree</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-5</title>
+    <url>/2020/04/06/leetcode-day-5/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-5"><a href="#LeetCode-30-days-Challenge-Day-5" class="headerlink" title="LeetCode 30 days Challenge - Day 5"></a>LeetCode 30 days Challenge - Day 5</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Best-Time-to-Buy-and-Sell-Stock-II"><a href="#Best-Time-to-Buy-and-Sell-Stock-II" class="headerlink" title="Best Time to Buy and Sell Stock II"></a>Best Time to Buy and Sell Stock II</h2><p>Say you have an array for which the <em>i</em>th element is the price of a given stock on day <em>i</em>.</p>
+<p>Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).</p>
+<p><strong>Note:</strong> You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [7,1,5,3,6,4]</span><br><span class="line">Output: 7</span><br><span class="line">Explanation: Buy on day 2 (price &#x3D; 1) and sell on day 3 (price &#x3D; 5), profit &#x3D; 5-1 &#x3D; 4.</span><br><span class="line">             Then buy on day 4 (price &#x3D; 3) and sell on day 5 (price &#x3D; 6), profit &#x3D; 6-3 &#x3D; 3.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [1,2,3,4,5]</span><br><span class="line">Output: 4</span><br><span class="line">Explanation: Buy on day 1 (price &#x3D; 1) and sell on day 5 (price &#x3D; 5), profit &#x3D; 5-1 &#x3D; 4.</span><br><span class="line">             Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are</span><br><span class="line">             engaging multiple transactions at the same time. You must sell before buying again.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [7,6,4,3,1]</span><br><span class="line">Output: 0</span><br><span class="line">Explanation: In this case, no transaction is done, i.e. max profit &#x3D; 0.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整型数组，记录着若干天股票的价格，进行任意次买入卖出（买入后必须先卖出再进行下一次买入），求最大利润。</p>
+<p>解法：</p>
+<p>本题是股票的买卖时机系列的第二题，问题关键在于理解：</p>
+<ol>
+<li><p>对于多日连续上升的情况，每日都进行一次买入卖出等价于最低日买入、最高日卖出；</p>
+<p>在下图中，注意：A + B + C = D</p>
+<p><img src="http://yanxuan.nosdn.127.net/70510710f7ef55f3a80d7fa901b23296.png" alt="img2.png"></p>
+</li>
+<li><p>对于两次连续的谷底、峰值情况，每次都进行买入、卖出会优于只进行一次买入、卖出；</p>
+<p>在下图中，注意：A + B &gt; C</p>
+<p><img src="http://yanxuan.nosdn.127.net/33235b8621329a12ddcf1acfd135fa3e.png" alt="img1.png"></p>
+</li>
+</ol>
+<p>理解了以上两种情况，就能推导出最佳情况实际上就是逐日进行检查，当每日价格高于前一天时，就能盈利。</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;prices.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (prices[i] &gt; prices[i<span class="number">-1</span>]) res += prices[i] - prices[i<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3287/" target="_blank" rel="noopener">Best Time to Buy and Sell Stock II</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-10</title>
-      <link href="/2020/04/10/leetcode-day-10/"/>
-      <url>/2020/04/10/leetcode-day-10/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-10"><a href="#LeetCode-30-days-Challenge-Day-10" class="headerlink" title="LeetCode 30 days Challenge - Day 10"></a>LeetCode 30 days Challenge - Day 10</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Min-Stack"><a href="#Min-Stack" class="headerlink" title="Min Stack"></a>Min Stack</h2><p>Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.</p><ul><li>push(x) – Push element x onto stack.</li><li>pop() – Removes the element on top of the stack.</li><li>top() – Get the top element.</li><li>getMin() – Retrieve the minimum element in the stack.</li></ul><p><strong>Example:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MinStack minStack &#x3D; new MinStack();</span><br><span class="line">minStack.push(-2);</span><br><span class="line">minStack.push(0);</span><br><span class="line">minStack.push(-3);</span><br><span class="line">minStack.getMin();   --&gt; Returns -3.</span><br><span class="line">minStack.pop();</span><br><span class="line">minStack.top();      --&gt; Returns 0.</span><br><span class="line">minStack.getMin();   --&gt; Returns -2.</span><br></pre></td></tr></table></figure><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：实现一个最小栈，包括压栈、退栈、返回最小值等函数。</p><p>解法：</p><p>最小栈结构为了记录最小值，需要多使用一个栈来记录最小值。</p><p>接下来，讨论各个方法如何实现：</p><ol><li><p>push() 压栈：</p><ol><li><p>首先，无论如何将数据压入数据栈；</p></li><li><p>接着进行判断，若最小栈栈顶元素大于或等于压入的数据，将该数据压入最小栈。</p><p>（此处注意，等于的情况也要压栈，这样才能避免退栈操作在多个最小值删除。）</p></li></ol></li><li><p>pop() 出栈：</p><ol><li><p>首先，若最小栈栈顶元素等于当前栈顶元素，将最小栈栈顶元素弹出。</p><p>（此处注意push操作中第二步的注释。）</p></li><li><p>将栈顶元素出栈。</p></li></ol></li><li><p>top() 访问栈顶元素：调用vector结构的back()方法。</p></li><li><p>getMin() 访问最小值：调用stack结构的top()方法。</p></li></ol><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinStack</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; ministack;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">    </span><br><span class="line">    MinStack() &#123;</span><br><span class="line">        ministack.push(INT_MAX);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        v.push_back(x);</span><br><span class="line">        <span class="keyword">if</span> (x &lt;= ministack.top()) ministack.push(x);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (v.back() == ministack.top()) ministack.pop();</span><br><span class="line">        v.pop_back();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> v.back();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ministack.top();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3292/" target="_blank" rel="noopener">Min Stack</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-6</title>
+    <url>/2020/04/06/leetcode-day-6/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-6"><a href="#LeetCode-30-days-Challenge-Day-6" class="headerlink" title="LeetCode 30 days Challenge - Day 6"></a>LeetCode 30 days Challenge - Day 6</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Group-Anagrams"><a href="#Group-Anagrams" class="headerlink" title="Group Anagrams"></a>Group Anagrams</h2><p>Given an array of strings, group anagrams together.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;],</span><br><span class="line">Output:</span><br><span class="line">[</span><br><span class="line">  [&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;],</span><br><span class="line">  [&quot;nat&quot;,&quot;tan&quot;],</span><br><span class="line">  [&quot;bat&quot;]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note:</strong></p>
+<ul>
+<li>All inputs will be in lowercase.</li>
+<li>The order of your output does not matter.</li>
+</ul>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个字符串数组，将其中由相同字母组成的字符串归类到一起。</p>
+<p>解法：</p>
+<p>为判断是否由相同字母组成，有两种方法：</p>
+<ol>
+<li>对每个字符串进行排序，排序后相同的即为同组。</li>
+<li>对每个字符串统计字母出现的次数，次数相同的即为同组。</li>
+</ol>
+<p>本题如果调用<code>sort()</code>函数来实现第一个方法，复杂度则为<code>O(KlogK)</code>级别，但由于字母是有限且连续的，不妨考虑使用桶排序的方案，这样可以将复杂度降为<code>O(K)</code>（K为最长字符串长度）。</p>
+<p>第二种方法复杂度同为<code>O(K)</code>，本文采用第一种方法。</p>
+<p>在知道如何判断后，考虑如何进行归类，作者使用的是<code>unordered_map</code>哈希结构进行归类，即：</p>
+<ol>
+<li><p>建立一个由字符串到列表的映射：<code>unordered_map&lt;string, vector&lt;string&gt;&gt; m;</code></p>
+</li>
+<li><p>对题目给出的数组，遍历之，将每个字符串元素进行桶排序，并且将结果作为映射的键，将原字符串加入该键对应的列表中：<code>for (string s : strs) m[BucketSort(s)].push_back(s);</code></p>
+</li>
+<li><p>遍历m，将结果加入res即可：<code>for (auto &amp;v : m) res.push_back(v.second);</code></p>
+<p>（此处操作可以参考“对unordered_map进行遍历”）</p>
+</li>
+</ol>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 桶排序</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">BucketSort</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">string</span> res;</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">bucket</span><span class="params">(<span class="number">26</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : s) bucket[c - <span class="string">'a'</span>]++;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;bucket.size(); i++) <span class="keyword">while</span>(bucket[i]--) &#123;</span><br><span class="line">        res += <span class="string">'a'</span> + i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; <span class="title">groupAnagrams</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; strs)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; res;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="built_in">string</span>, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">string</span> s : strs) m[BucketSort(s)].push_back(s);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;v : m) res.push_back(v.second);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3288/" target="_blank" rel="noopener">Group Anagrams</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-9</title>
-      <link href="/2020/04/10/leetcode-day-9/"/>
-      <url>/2020/04/10/leetcode-day-9/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-9"><a href="#LeetCode-30-days-Challenge-Day-9" class="headerlink" title="LeetCode 30 days Challenge - Day 9"></a>LeetCode 30 days Challenge - Day 9</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Backspace-String-Compare"><a href="#Backspace-String-Compare" class="headerlink" title="Backspace String Compare"></a>Backspace String Compare</h2><p>Given two strings <code>S</code> and <code>T</code>, return if they are equal when both are typed into empty text editors. <code>#</code> means a backspace character.</p><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;ab#c&quot;, T &#x3D; &quot;ad#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;ac&quot;.</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;ab##&quot;, T &#x3D; &quot;c#d#&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;&quot;.</span><br></pre></td></tr></table></figure><p><strong>Example 3:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;a##c&quot;, T &#x3D; &quot;#a#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;c&quot;.</span><br></pre></td></tr></table></figure><p><strong>Example 4:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: S &#x3D; &quot;a#c&quot;, T &#x3D; &quot;b&quot;</span><br><span class="line">Output: false</span><br><span class="line">Explanation: S becomes &quot;c&quot; while T becomes &quot;b&quot;.</span><br></pre></td></tr></table></figure><p><strong>Note</strong>:</p><ol><li><code>1 &lt;= S.length &lt;= 200</code></li><li><code>1 &lt;= T.length &lt;= 200</code></li><li><code>S</code> and <code>T</code> only contain lowercase letters and <code>&#39;#&#39;</code> characters.</li></ol><p><strong>Follow up:</strong></p><ul><li>Can you solve it in <code>O(N)</code> time and <code>O(1)</code> space?</li></ul><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定两个字符串，其中“#”号表示一个退格，要求判断处理完退格操作后两个字符串是否相同。</p><p>解法：</p><p>本题是栈结构的经典应用，以下分析模拟操作的原则：</p><ol><li>遍历字符串，遇到不为退格“#”的字符，压栈。</li><li>遇到退格“#”时：<ol><li>若栈为空，忽略（空字符串怎么进行退格依然为空）。</li><li>反之，将栈顶元素退栈（相当于退格当前字符串的最后一个字符）。</li></ol></li><li>对两个字符串处理完成后，依次退栈比较：<ol><li>遇到不相同的字符，则返回<code>false</code>。</li><li>比较到栈空，返回<code>true</code>。</li></ol></li></ol><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">backspaceCompare</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">string</span> T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">char</span>&gt; s, t;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : S) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'#'</span> &amp;&amp; !s.empty()) s.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c != <span class="string">'#'</span>) s.push(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : T) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'#'</span> &amp;&amp; !t.empty()) t.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c != <span class="string">'#'</span>) t.push(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!s.empty() &amp;&amp; !t.empty()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (s.top() != t.top()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        s.pop(); t.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (s.empty() &amp;&amp; t.empty());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3291/" target="_blank" rel="noopener">Backspace String Compare</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-7</title>
+    <url>/2020/04/07/leetcode-day-7/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-7"><a href="#LeetCode-30-days-Challenge-Day-7" class="headerlink" title="LeetCode 30 days Challenge - Day 7"></a>LeetCode 30 days Challenge - Day 7</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Counting-Elements"><a href="#Counting-Elements" class="headerlink" title="Counting Elements"></a>Counting Elements</h2><p>Given an integer array <code>arr</code>, count element <code>x</code> such that <code>x + 1</code> is also in <code>arr</code>.</p>
+<p>If there’re duplicates in <code>arr</code>, count them seperately.</p>
+<p> <strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: arr &#x3D; [1,2,3]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: 1 and 2 are counted cause 2 and 3 are in arr.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: arr &#x3D; [1,1,3,3,5,5,7,7]</span><br><span class="line">Output: 0</span><br><span class="line">Explanation: No numbers are counted, cause there&#39;s no 2, 4, 6, or 8 in arr.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: arr &#x3D; [1,3,2,3,5,0]</span><br><span class="line">Output: 3</span><br><span class="line">Explanation: 0, 1 and 2 are counted cause 1, 2 and 3 are in arr.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: arr &#x3D; [1,1,2,2]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: Two 1s are counted cause 2 is in arr.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= arr.length &lt;= 1000</code></li>
+<li><code>0 &lt;= arr[i] &lt;= 1000</code></li>
+</ul>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个字符串数组，对任一元素x，如果x+1也在数组中，记一次数。对多个相同元素x，分开计算次数。</p>
+<p>解法：</p>
+<p>使用<code>unordered_map</code>哈希结构进行计数，即：</p>
+<ol>
+<li><p>建立一个由映射：<code>unordered_map&lt;int, int&gt; m;</code></p>
+</li>
+<li><p>对题目给出的数组，遍历之，m的键值代表出现的元素，每个键对应的值记录其出现次数（因为若满足计数条件，相同元素要分开考虑，故此处记录了每个元素出现的次数）。</p>
+</li>
+<li><p>遍历m，判断并更新res即可：<code>for (auto v : m) if (m.count(v.first + 1)) res += v.second;</code></p>
+<p>（此处操作可以参考“对unordered_map进行遍历”）</p>
+<p>（注意，此处<code>map.count()</code>不为0即“x+1也在数组中”）</p>
+</li>
+</ol>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">countElements</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i : arr) m[i]++;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v : m) <span class="keyword">if</span> (m.count(v.first + <span class="number">1</span>)) res += v.second;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3289/" target="_blank" rel="noopener">Counting Elements</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-8</title>
-      <link href="/2020/04/08/leetcode-day-8/"/>
-      <url>/2020/04/08/leetcode-day-8/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-8"><a href="#LeetCode-30-days-Challenge-Day-8" class="headerlink" title="LeetCode 30 days Challenge - Day 8"></a>LeetCode 30 days Challenge - Day 8</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Middle-of-the-Linked-List"><a href="#Middle-of-the-Linked-List" class="headerlink" title="Middle of the Linked List"></a>Middle of the Linked List</h2><p>Given a non-empty, singly linked list with head node <code>head</code>, return a middle node of linked list.</p><p>If there are two middle nodes, return the second middle node.</p><p> <strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,4,5]</span><br><span class="line">Output: Node 3 from this list (Serialization: [3,4,5])</span><br><span class="line">The returned node has value 3.  (The judge&#39;s serialization of this node is [3,4,5]).</span><br><span class="line">Note that we returned a ListNode object ans, such that:</span><br><span class="line">ans.val &#x3D; 3, ans.next.val &#x3D; 4, ans.next.next.val &#x3D; 5, and ans.next.next.next &#x3D; NULL.</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,4,5,6]</span><br><span class="line">Output: Node 4 from this list (Serialization: [4,5,6])</span><br><span class="line">Since the list has two middle nodes with values 3 and 4, we return the second one.</span><br></pre></td></tr></table></figure><p> <strong>Note:</strong></p><ul><li>The number of nodes in the given list will be between <code>1</code> and <code>100</code>.</li></ul><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个非空链表的头指针，返回这个链表在中间位置的结点。</p><p>解法：</p><p>典型例题，常常使用快慢指针来定位链表中部。</p><p>快指针一次步进2个结点，慢指针一次步进1个结点。当快指针到达末尾，慢指针正好到达链表中部。</p><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">ListNode* <span class="title">middleNode</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">    ListNode* fast = head, * slow = head;</span><br><span class="line">    <span class="keyword">while</span> (fast &amp;&amp; fast-&gt;next) &#123;</span><br><span class="line">        slow = slow-&gt;next;</span><br><span class="line">        fast = fast-&gt;next-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3290/" target="_blank" rel="noopener">Middle of the Linked List</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-8</title>
+    <url>/2020/04/08/leetcode-day-8/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-8"><a href="#LeetCode-30-days-Challenge-Day-8" class="headerlink" title="LeetCode 30 days Challenge - Day 8"></a>LeetCode 30 days Challenge - Day 8</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Middle-of-the-Linked-List"><a href="#Middle-of-the-Linked-List" class="headerlink" title="Middle of the Linked List"></a>Middle of the Linked List</h2><p>Given a non-empty, singly linked list with head node <code>head</code>, return a middle node of linked list.</p>
+<p>If there are two middle nodes, return the second middle node.</p>
+<p> <strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [1,2,3,4,5]</span><br><span class="line">Output: Node 3 from this list (Serialization: [3,4,5])</span><br><span class="line">The returned node has value 3.  (The judge&#39;s serialization of this node is [3,4,5]).</span><br><span class="line">Note that we returned a ListNode object ans, such that:</span><br><span class="line">ans.val &#x3D; 3, ans.next.val &#x3D; 4, ans.next.next.val &#x3D; 5, and ans.next.next.next &#x3D; NULL.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [1,2,3,4,5,6]</span><br><span class="line">Output: Node 4 from this list (Serialization: [4,5,6])</span><br><span class="line">Since the list has two middle nodes with values 3 and 4, we return the second one.</span><br></pre></td></tr></table></figure>
+
+<p> <strong>Note:</strong></p>
+<ul>
+<li>The number of nodes in the given list will be between <code>1</code> and <code>100</code>.</li>
+</ul>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个非空链表的头指针，返回这个链表在中间位置的结点。</p>
+<p>解法：</p>
+<p>典型例题，常常使用快慢指针来定位链表中部。</p>
+<p>快指针一次步进2个结点，慢指针一次步进1个结点。当快指针到达末尾，慢指针正好到达链表中部。</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">ListNode* <span class="title">middleNode</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">    ListNode* fast = head, * slow = head;</span><br><span class="line">    <span class="keyword">while</span> (fast &amp;&amp; fast-&gt;next) &#123;</span><br><span class="line">        slow = slow-&gt;next;</span><br><span class="line">        fast = fast-&gt;next-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3290/" target="_blank" rel="noopener">Middle of the Linked List</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-7</title>
-      <link href="/2020/04/07/leetcode-day-7/"/>
-      <url>/2020/04/07/leetcode-day-7/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-7"><a href="#LeetCode-30-days-Challenge-Day-7" class="headerlink" title="LeetCode 30 days Challenge - Day 7"></a>LeetCode 30 days Challenge - Day 7</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Counting-Elements"><a href="#Counting-Elements" class="headerlink" title="Counting Elements"></a>Counting Elements</h2><p>Given an integer array <code>arr</code>, count element <code>x</code> such that <code>x + 1</code> is also in <code>arr</code>.</p><p>If there’re duplicates in <code>arr</code>, count them seperately.</p><p> <strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: arr &#x3D; [1,2,3]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: 1 and 2 are counted cause 2 and 3 are in arr.</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: arr &#x3D; [1,1,3,3,5,5,7,7]</span><br><span class="line">Output: 0</span><br><span class="line">Explanation: No numbers are counted, cause there&#39;s no 2, 4, 6, or 8 in arr.</span><br></pre></td></tr></table></figure><p><strong>Example 3:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: arr &#x3D; [1,3,2,3,5,0]</span><br><span class="line">Output: 3</span><br><span class="line">Explanation: 0, 1 and 2 are counted cause 1, 2 and 3 are in arr.</span><br></pre></td></tr></table></figure><p><strong>Example 4:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: arr &#x3D; [1,1,2,2]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: Two 1s are counted cause 2 is in arr.</span><br></pre></td></tr></table></figure><p><strong>Constraints:</strong></p><ul><li><code>1 &lt;= arr.length &lt;= 1000</code></li><li><code>0 &lt;= arr[i] &lt;= 1000</code></li></ul><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个字符串数组，对任一元素x，如果x+1也在数组中，记一次数。对多个相同元素x，分开计算次数。</p><p>解法：</p><p>使用<code>unordered_map</code>哈希结构进行计数，即：</p><ol><li><p>建立一个由映射：<code>unordered_map&lt;int, int&gt; m;</code></p></li><li><p>对题目给出的数组，遍历之，m的键值代表出现的元素，每个键对应的值记录其出现次数（因为若满足计数条件，相同元素要分开考虑，故此处记录了每个元素出现的次数）。</p></li><li><p>遍历m，判断并更新res即可：<code>for (auto v : m) if (m.count(v.first + 1)) res += v.second;</code></p><p>（此处操作可以参考“对unordered_map进行遍历”）</p><p>（注意，此处<code>map.count()</code>不为0即“x+1也在数组中”）</p></li></ol><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">countElements</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i : arr) m[i]++;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v : m) <span class="keyword">if</span> (m.count(v.first + <span class="number">1</span>)) res += v.second;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3289/" target="_blank" rel="noopener">Counting Elements</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-9</title>
+    <url>/2020/04/10/leetcode-day-9/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-9"><a href="#LeetCode-30-days-Challenge-Day-9" class="headerlink" title="LeetCode 30 days Challenge - Day 9"></a>LeetCode 30 days Challenge - Day 9</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Backspace-String-Compare"><a href="#Backspace-String-Compare" class="headerlink" title="Backspace String Compare"></a>Backspace String Compare</h2><p>Given two strings <code>S</code> and <code>T</code>, return if they are equal when both are typed into empty text editors. <code>#</code> means a backspace character.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: S &#x3D; &quot;ab#c&quot;, T &#x3D; &quot;ad#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;ac&quot;.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: S &#x3D; &quot;ab##&quot;, T &#x3D; &quot;c#d#&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;&quot;.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: S &#x3D; &quot;a##c&quot;, T &#x3D; &quot;#a#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both S and T become &quot;c&quot;.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: S &#x3D; &quot;a#c&quot;, T &#x3D; &quot;b&quot;</span><br><span class="line">Output: false</span><br><span class="line">Explanation: S becomes &quot;c&quot; while T becomes &quot;b&quot;.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong>:</p>
+<ol>
+<li><code>1 &lt;= S.length &lt;= 200</code></li>
+<li><code>1 &lt;= T.length &lt;= 200</code></li>
+<li><code>S</code> and <code>T</code> only contain lowercase letters and <code>&#39;#&#39;</code> characters.</li>
+</ol>
+<p><strong>Follow up:</strong></p>
+<ul>
+<li>Can you solve it in <code>O(N)</code> time and <code>O(1)</code> space?</li>
+</ul>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定两个字符串，其中“#”号表示一个退格，要求判断处理完退格操作后两个字符串是否相同。</p>
+<p>解法：</p>
+<p>本题是栈结构的经典应用，以下分析模拟操作的原则：</p>
+<ol>
+<li>遍历字符串，遇到不为退格“#”的字符，压栈。</li>
+<li>遇到退格“#”时：<ol>
+<li>若栈为空，忽略（空字符串怎么进行退格依然为空）。</li>
+<li>反之，将栈顶元素退栈（相当于退格当前字符串的最后一个字符）。</li>
+</ol>
+</li>
+<li>对两个字符串处理完成后，依次退栈比较：<ol>
+<li>遇到不相同的字符，则返回<code>false</code>。</li>
+<li>比较到栈空，返回<code>true</code>。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">backspaceCompare</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">string</span> T)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">char</span>&gt; s, t;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : S) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'#'</span> &amp;&amp; !s.empty()) s.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c != <span class="string">'#'</span>) s.push(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : T) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'#'</span> &amp;&amp; !t.empty()) t.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c != <span class="string">'#'</span>) t.push(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!s.empty() &amp;&amp; !t.empty()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (s.top() != t.top()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        s.pop(); t.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (s.empty() &amp;&amp; t.empty());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3291/" target="_blank" rel="noopener">Backspace String Compare</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-6</title>
-      <link href="/2020/04/06/leetcode-day-6/"/>
-      <url>/2020/04/06/leetcode-day-6/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-6"><a href="#LeetCode-30-days-Challenge-Day-6" class="headerlink" title="LeetCode 30 days Challenge - Day 6"></a>LeetCode 30 days Challenge - Day 6</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Group-Anagrams"><a href="#Group-Anagrams" class="headerlink" title="Group Anagrams"></a>Group Anagrams</h2><p>Given an array of strings, group anagrams together.</p><p><strong>Example:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: [&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;],</span><br><span class="line">Output:</span><br><span class="line">[</span><br><span class="line">  [&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;],</span><br><span class="line">  [&quot;nat&quot;,&quot;tan&quot;],</span><br><span class="line">  [&quot;bat&quot;]</span><br><span class="line">]</span><br></pre></td></tr></table></figure><p><strong>Note:</strong></p><ul><li>All inputs will be in lowercase.</li><li>The order of your output does not matter.</li></ul><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个字符串数组，将其中由相同字母组成的字符串归类到一起。</p><p>解法：</p><p>为判断是否由相同字母组成，有两种方法：</p><ol><li>对每个字符串进行排序，排序后相同的即为同组。</li><li>对每个字符串统计字母出现的次数，次数相同的即为同组。</li></ol><p>本题如果调用<code>sort()</code>函数来实现第一个方法，复杂度则为<code>O(KlogK)</code>级别，但由于字母是有限且连续的，不妨考虑使用桶排序的方案，这样可以将复杂度降为<code>O(K)</code>（K为最长字符串长度）。</p><p>第二种方法复杂度同为<code>O(K)</code>，本文采用第一种方法。</p><p>在知道如何判断后，考虑如何进行归类，作者使用的是<code>unordered_map</code>哈希结构进行归类，即：</p><ol><li><p>建立一个由字符串到列表的映射：<code>unordered_map&lt;string, vector&lt;string&gt;&gt; m;</code></p></li><li><p>对题目给出的数组，遍历之，将每个字符串元素进行桶排序，并且将结果作为映射的键，将原字符串加入该键对应的列表中：<code>for (string s : strs) m[BucketSort(s)].push_back(s);</code></p></li><li><p>遍历m，将结果加入res即可：<code>for (auto &amp;v : m) res.push_back(v.second);</code></p><p>（此处操作可以参考“对unordered_map进行遍历”）</p></li></ol><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 桶排序</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">BucketSort</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">string</span> res;</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">bucket</span><span class="params">(<span class="number">26</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : s) bucket[c - <span class="string">'a'</span>]++;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;bucket.size(); i++) <span class="keyword">while</span>(bucket[i]--) &#123;</span><br><span class="line">        res += <span class="string">'a'</span> + i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; <span class="title">groupAnagrams</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; strs)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; res;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="built_in">string</span>, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">string</span> s : strs) m[BucketSort(s)].push_back(s);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;v : m) res.push_back(v.second);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3288/" target="_blank" rel="noopener">Group Anagrams</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-10</title>
+    <url>/2020/04/10/leetcode-day-10/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-10"><a href="#LeetCode-30-days-Challenge-Day-10" class="headerlink" title="LeetCode 30 days Challenge - Day 10"></a>LeetCode 30 days Challenge - Day 10</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Min-Stack"><a href="#Min-Stack" class="headerlink" title="Min Stack"></a>Min Stack</h2><p>Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.</p>
+<ul>
+<li>push(x) – Push element x onto stack.</li>
+<li>pop() – Removes the element on top of the stack.</li>
+<li>top() – Get the top element.</li>
+<li>getMin() – Retrieve the minimum element in the stack.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MinStack minStack &#x3D; new MinStack();</span><br><span class="line">minStack.push(-2);</span><br><span class="line">minStack.push(0);</span><br><span class="line">minStack.push(-3);</span><br><span class="line">minStack.getMin();   	--&gt; Returns -3.</span><br><span class="line">minStack.pop();</span><br><span class="line">minStack.top();      		--&gt; Returns 0.</span><br><span class="line">minStack.getMin();   	--&gt; Returns -2.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：实现一个最小栈，包括压栈、退栈、返回最小值等函数。</p>
+<p>解法：</p>
+<p>最小栈结构为了记录最小值，需要多使用一个栈来记录最小值。</p>
+<p>接下来，讨论各个方法如何实现：</p>
+<ol>
+<li><p>push() 压栈：</p>
+<ol>
+<li><p>首先，无论如何将数据压入数据栈；</p>
+</li>
+<li><p>接着进行判断，若最小栈栈顶元素大于或等于压入的数据，将该数据压入最小栈。</p>
+<p>（此处注意，等于的情况也要压栈，这样才能避免退栈操作在多个最小值删除。）</p>
+</li>
+</ol>
+</li>
+<li><p>pop() 出栈：</p>
+<ol>
+<li><p>首先，若最小栈栈顶元素等于当前栈顶元素，将最小栈栈顶元素弹出。</p>
+<p>（此处注意push操作中第二步的注释。）</p>
+</li>
+<li><p>将栈顶元素出栈。</p>
+</li>
+</ol>
+</li>
+<li><p>top() 访问栈顶元素：调用vector结构的back()方法。</p>
+</li>
+<li><p>getMin() 访问最小值：调用stack结构的top()方法。</p>
+</li>
+</ol>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinStack</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; ministack;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">    </span><br><span class="line">    MinStack() &#123;</span><br><span class="line">        ministack.push(INT_MAX);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        v.push_back(x);</span><br><span class="line">        <span class="keyword">if</span> (x &lt;= ministack.top()) ministack.push(x);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (v.back() == ministack.top()) ministack.pop();</span><br><span class="line">        v.pop_back();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> v.back();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ministack.top();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3292/" target="_blank" rel="noopener">Min Stack</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-5</title>
-      <link href="/2020/04/06/leetcode-day-5/"/>
-      <url>/2020/04/06/leetcode-day-5/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-5"><a href="#LeetCode-30-days-Challenge-Day-5" class="headerlink" title="LeetCode 30 days Challenge - Day 5"></a>LeetCode 30 days Challenge - Day 5</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Best-Time-to-Buy-and-Sell-Stock-II"><a href="#Best-Time-to-Buy-and-Sell-Stock-II" class="headerlink" title="Best Time to Buy and Sell Stock II"></a>Best Time to Buy and Sell Stock II</h2><p>Say you have an array for which the <em>i</em>th element is the price of a given stock on day <em>i</em>.</p><p>Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).</p><p><strong>Note:</strong> You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).</p><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: [7,1,5,3,6,4]</span><br><span class="line">Output: 7</span><br><span class="line">Explanation: Buy on day 2 (price &#x3D; 1) and sell on day 3 (price &#x3D; 5), profit &#x3D; 5-1 &#x3D; 4.</span><br><span class="line">             Then buy on day 4 (price &#x3D; 3) and sell on day 5 (price &#x3D; 6), profit &#x3D; 6-3 &#x3D; 3.</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,4,5]</span><br><span class="line">Output: 4</span><br><span class="line">Explanation: Buy on day 1 (price &#x3D; 1) and sell on day 5 (price &#x3D; 5), profit &#x3D; 5-1 &#x3D; 4.</span><br><span class="line">             Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are</span><br><span class="line">             engaging multiple transactions at the same time. You must sell before buying again.</span><br></pre></td></tr></table></figure><p><strong>Example 3:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [7,6,4,3,1]</span><br><span class="line">Output: 0</span><br><span class="line">Explanation: In this case, no transaction is done, i.e. max profit &#x3D; 0.</span><br></pre></td></tr></table></figure><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整型数组，记录着若干天股票的价格，进行任意次买入卖出（买入后必须先卖出再进行下一次买入），求最大利润。</p><p>解法：</p><p>本题是股票的买卖时机系列的第二题，问题关键在于理解：</p><ol><li><p>对于多日连续上升的情况，每日都进行一次买入卖出等价于最低日买入、最高日卖出；</p><p>在下图中，注意：A + B + C = D</p><p><img src="http://yanxuan.nosdn.127.net/70510710f7ef55f3a80d7fa901b23296.png" alt="img2.png"></p></li><li><p>对于两次连续的谷底、峰值情况，每次都进行买入、卖出会优于只进行一次买入、卖出；</p><p>在下图中，注意：A + B &gt; C</p><p><img src="http://yanxuan.nosdn.127.net/33235b8621329a12ddcf1acfd135fa3e.png" alt="img1.png"></p></li></ol><p>理解了以上两种情况，就能推导出最佳情况实际上就是逐日进行检查，当每日价格高于前一天时，就能盈利。</p><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;prices.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (prices[i] &gt; prices[i<span class="number">-1</span>]) res += prices[i] - prices[i<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3287/" target="_blank" rel="noopener">Best Time to Buy and Sell Stock II</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-11</title>
+    <url>/2020/04/11/leetcode-day-11/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-11"><a href="#LeetCode-30-days-Challenge-Day-11" class="headerlink" title="LeetCode 30 days Challenge - Day 11"></a>LeetCode 30 days Challenge - Day 11</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Diameter-of-Binary-Tree"><a href="#Diameter-of-Binary-Tree" class="headerlink" title="Diameter of Binary Tree"></a>Diameter of Binary Tree</h2><p>Given a binary tree, you need to compute the length of the diameter of the tree. The diameter of a binary tree is the length of the <strong>longest</strong> path between any two nodes in a tree. This path may or may not pass through the root.</p>
+<p><strong>Example:</strong><br>Given a binary tree</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    1</span><br><span class="line">   &#x2F; \</span><br><span class="line">  2   3</span><br><span class="line"> &#x2F; \     </span><br><span class="line">4   5</span><br></pre></td></tr></table></figure>
+
+<p>Return <strong>3</strong>, which is the length of the path [4,2,1,3] or [5,2,1,3].</p>
+<p><strong>Note:</strong> The length of path between two nodes is represented by the number of edges between them.</p>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一棵二叉树，要求找到它的直径。二叉树直径定义为其中距离最远的两个节点之间的距离。</p>
+<p>解法：</p>
+<p>由题，我们知道直径不一定经过当前树的根结点。</p>
+<p>因此，对以当前结点为根结点的（子）树，根据是否经过其根结点，可以分为两种情况，递归思想如下：</p>
+<ol>
+<li>对于非空结点，计算：<ol>
+<li>左子树的深度 + 右子树的深度 = <strong>经过</strong>当前结点的最长距离；</li>
+<li>左子树的直径（递归，不经过根结点）；</li>
+<li>右子树的直径（递归，不经过根结点）；</li>
+</ol>
+</li>
+<li>对以上三值，取最大值即为以当前结点为根的二叉树的直径。</li>
+</ol>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getdepth</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> + max(getdepth(root-&gt;left), getdepth(root-&gt;right));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">diameterOfBinaryTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> cur = getdepth(root-&gt;left) + getdepth(root-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> max(cur, max(diameterOfBinaryTree(root-&gt;left), diameterOfBinaryTree(root-&gt;right)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/529/week-2/3293/" target="_blank" rel="noopener">Diameter of Binary Tree</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-4</title>
-      <link href="/2020/04/06/leetcode-day-4/"/>
-      <url>/2020/04/06/leetcode-day-4/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-4"><a href="#LeetCode-30-days-Challenge-Day-4" class="headerlink" title="LeetCode 30 days Challenge - Day 4"></a>LeetCode 30 days Challenge - Day 4</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Move-Zeroes"><a href="#Move-Zeroes" class="headerlink" title="Move Zeroes"></a>Move Zeroes</h2><p>Given an array <code>nums</code>, write a function to move all <code>0</code>‘s to the end of it while maintaining the relative order of the non-zero elements.</p><p><strong>Example:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [0,1,0,3,12]</span><br><span class="line">Output: [1,3,12,0,0]</span><br></pre></td></tr></table></figure><p><strong>Note</strong>:</p><ol><li>You must do this <strong>in-place</strong> without making a copy of the array.</li><li>Minimize the total number of operations.</li></ol><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整型数组，将所有非0元素移到数组的前部，并保持相对顺序不变。</p><p>解法：</p><p>双指针：遇到对数组中元素进行原地操作(in-place)的时候，双指针往往是很好的方法。</p><p>本题可以设计两个指针：</p><ul><li>i：记录当前处理到的位置，若当前位置为非0元素，则交换移动到前部，是0则跳过。</li><li>j：记录下一个交换位置，从左到右增长，保证非0元素全部在数组的前部。</li></ul><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">moveZeroes</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">-1</span>;</span><br><span class="line">    <span class="comment">// 注意 &amp;&amp; 是会提前截断的，若nums[i] == 0，j不会增长</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i&lt;nums.size(); i++) <span class="keyword">if</span> (nums[i] != <span class="number">0</span> &amp;&amp; i != ++j) &#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = nums[i];</span><br><span class="line">        nums[i] = nums[j];</span><br><span class="line">        nums[j] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3286/" target="_blank" rel="noopener">Move Zeroes</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-12</title>
+    <url>/2020/04/12/leetcode-day-12/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-12"><a href="#LeetCode-30-days-Challenge-Day-12" class="headerlink" title="LeetCode 30 days Challenge - Day 12"></a>LeetCode 30 days Challenge - Day 12</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Last-Stone-Weight"><a href="#Last-Stone-Weight" class="headerlink" title="Last Stone Weight"></a>Last Stone Weight</h2><p>We have a collection of stones, each stone has a positive integer weight.</p>
+<p>Each turn, we choose the two <strong>heaviest</strong> stones and smash them together. Suppose the stones have weights <code>x</code> and <code>y</code> with <code>x &lt;= y</code>. The result of this smash is:</p>
+<ul>
+<li>If <code>x == y</code>, both stones are totally destroyed;</li>
+<li>If <code>x != y</code>, the stone of weight <code>x</code> is totally destroyed, and the stone of weight <code>y</code> has new weight <code>y-x</code>.</li>
+</ul>
+<p>At the end, there is at most 1 stone left. Return the weight of this stone (or 0 if there are no stones left.)</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [2,7,4,1,8,1]</span><br><span class="line">Output: 1</span><br><span class="line">Explanation: </span><br><span class="line">We combine 7 and 8 to get 1 so the array converts to [2,4,1,1,1] then,</span><br><span class="line">we combine 2 and 4 to get 2 so the array converts to [2,1,1,1] then,</span><br><span class="line">we combine 2 and 1 to get 1 so the array converts to [1,1,1] then,</span><br><span class="line">we combine 1 and 1 to get 0 so the array converts to [1] then that&#39;s the value of last stone.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note:</strong></p>
+<ol>
+<li><code>1 &lt;= stones.length &lt;= 30</code></li>
+<li><code>1 &lt;= stones[i] &lt;= 1000</code></li>
+</ol>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整形数组，每个值代表一颗石子的质量。每次选取质量最大的两颗石子（如果存在至少两颗石子），若两颗石子质量相等，则进行下一次选取；否则，将一颗质量为它们的质量差的石子加入数组中。</p>
+<p>解法：</p>
+<p>简单进行模拟，重点注意每次需要选取质量最大的两颗，而且新加入石子后影响原有顺序，考虑使用大顶堆进行存储，作者采用的是STL中大顶堆实现的优先队列<code>&lt;priority_queue&gt;</code>。</p>
+<p>确定了储存结构，模拟操作如下：</p>
+<ol>
+<li>首先遍历数组，将“石子”加入优先队列。</li>
+<li>根据题目要求，当剩余石子为1颗或0颗时，结束循环，否则：<ol>
+<li>取队首元素，赋值给y，并将之出队；</li>
+<li>再次取队首元素，赋值给x，并将之出队；</li>
+<li>由于是优先队列，y &gt;= x，因此只需比较x是否与y相等：<ol>
+<li>相等：不进行操作，相当于两颗石子抵消了。</li>
+<li>不相等：将质量差值y-x加入优先队列。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>最后判断队列是否为空即可，</li>
+</ol>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lastStoneWeight</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; stones)</span> </span>&#123;</span><br><span class="line">    priority_queue&lt;<span class="keyword">int</span>&gt; pq;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i : stones) pq.push(i);</span><br><span class="line">    <span class="keyword">while</span> (pq.size() &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> y = pq.top(); pq.pop();</span><br><span class="line">        <span class="keyword">int</span> x = pq.top(); pq.pop();</span><br><span class="line">        <span class="keyword">if</span> (x != y) pq.push(y - x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pq.empty() ? <span class="number">0</span> : pq.top();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3297/" target="_blank" rel="noopener">Last Stone Weight</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-3</title>
-      <link href="/2020/04/04/leetcode-day-3/"/>
-      <url>/2020/04/04/leetcode-day-3/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-3"><a href="#LeetCode-30-days-Challenge-Day-3" class="headerlink" title="LeetCode 30 days Challenge - Day 3"></a>LeetCode 30 days Challenge - Day 3</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Maximum-Subarray"><a href="#Maximum-Subarray" class="headerlink" title="Maximum Subarray"></a>Maximum Subarray</h2><p>Given an integer array <code>nums</code>, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p><p><strong>Example:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: [4,-1,2,1] has the largest sum &#x3D; 6.</span><br></pre></td></tr></table></figure><p><strong>Follow up:</strong></p><p>If you have figured out the O(<em>n</em>) solution, try coding another solution using the divide and conquer approach, which is more subtle.</p><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整型数组，找到其中连续和最大的子数组。</p><blockquote><p>本题是算法导论原题，可以参考原书，以加深理解。</p></blockquote><p>解法一（遍历，追踪最大值）：</p><p>维护一个遍历res为最终答案，cur记录当前已经积累的值，当cur &lt; 0时，重置cur为0。</p><p>初次接触者可能有两个问题：</p><ol><li><p>为什么cur小于0才重置，而不是cur变小了就重置？</p><p>cur变小说明加了一个负数，但“迄今为止”，我们所累加的仍是一个正值。</p></li><li><p>能保证完备性吗？</p><p>能。每次cur的更新意味着一个子数组的结束。不妨考虑：</p><p>最坏情况：全是负数的数组，每遍历一个值便更新一次cur，res成功track最大的负数。</p><p>最佳情况：全数组非负，直到结束不会更新cur，res成功track整个数组的和和。</p><p>其他情况：尽可能地以正数为子数组的第一个元素，遇到负数进行“容忍”，直到该子数组和为负，res成功track所有子数组和中最大的一个。</p></li></ol><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> cur = <span class="number">0</span>, res = nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i : nums) &#123;</span><br><span class="line">        cur += i;</span><br><span class="line">        res = max(cur, res);</span><br><span class="line">        <span class="keyword">if</span> (cur &lt; <span class="number">0</span>) cur = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>解法二（分治法）：</p><p>这个方法是《算法导论》中介绍的，对每一个数组：</p><ol><li>取中点，分成左右两份，数组的最大子数组和可能包括或者不包括中点。</li><li>考虑以下情况：<ol><li>不包括中点，在左边一份：递归地，对左边一份进行求解。</li><li>不包括中点，在右边一份：递归地，对左边一份进行求解。</li><li>包括中点：中点加上左边一份的最大尾部和以及右边一份的最大头部和。</li></ol></li><li>计算上述三种情况，取最大即为所求。</li></ol><p>取题中示例：[-2,1,-3,4,-1,2,1,-5,4]</p><p>取中点 -1, 分为：[-2,1,-3,4],-1, [2,1,-5,4]</p><ol><li>对[-2,1,-3,4]进行求解</li><li>对 [2,1,-5,4]进行求解</li><li>包括-1，左边最大尾部和：4+(-3)+1 = 2，右边最大头部和：2+1 = 3</li></ol><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 包括中点</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">crossmid</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> l, <span class="keyword">int</span> mid, <span class="keyword">int</span> r)</span> </span>&#123; </span><br><span class="line">    <span class="keyword">int</span> l_res = INT_MIN, r_res = INT_MIN;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cur = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// 左边最大尾部和</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = mid; i &gt;=l; i--) &#123;</span><br><span class="line">        cur += nums[i];</span><br><span class="line">        <span class="keyword">if</span> (cur &gt; l_res) l_res = cur;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cur = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 右边最大头部和</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = mid+<span class="number">1</span>; i &lt;= r; i++) &#123;</span><br><span class="line">        cur += nums[i];</span><br><span class="line">        <span class="keyword">if</span> (cur &gt; r_res) r_res = cur;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> l_res + r_res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 不包括中点</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">side</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l == r) <span class="keyword">return</span> nums[l];</span><br><span class="line">    <span class="keyword">int</span> mid = (l + r) / <span class="number">2</span>;</span><br><span class="line">    <span class="comment">// 求三者最大值</span></span><br><span class="line">    <span class="keyword">return</span> max(max(side(nums, l, mid), side(nums, mid + <span class="number">1</span>, r)),  crossmid(nums, l, mid, r));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> side(nums, <span class="number">0</span>, nums.size() - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3285/" target="_blank" rel="noopener">Maximum Subarray</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-13</title>
+    <url>/2020/04/13/leetcode-day-13/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-13"><a href="#LeetCode-30-days-Challenge-Day-13" class="headerlink" title="LeetCode 30 days Challenge - Day 13"></a>LeetCode 30 days Challenge - Day 13</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Contiguous-Array"><a href="#Contiguous-Array" class="headerlink" title="Contiguous Array"></a>Contiguous Array</h2><p>Given a binary array, find the maximum length of a contiguous subarray with equal number of 0 and 1.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [0,1]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: [0, 1] is the longest contiguous subarray with equal number of 0 and 1.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [0,1,0]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note:</strong> The length of the given binary array will not exceed 50,000.</p>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个只包含0或1的数组，求满足条件（子数组中0和1数量相等）的最长连续子数组的长度。</p>
+<p>解法：</p>
+<p>本题关键是遍历数组，确保不漏掉符合条件的子数组，并更新最大长度。</p>
+<p>这里为了减少空间复杂度，使用哈希结构建立count（初始为0，遇0减1，遇1加1）到pos（count第一次出现的位置）的映射：</p>
+<ol>
+<li>初始化res为最大长度，count为当前1和0的个数差，负数表示0比1多。</li>
+<li>建立映射，初始化<code>m[0] = -1</code>的意义是：无论第一个元素是0还是1，count都将变为非0，因此，count=0首次出现的位置实际上是<code>-1</code>处（不存在，只是虚拟出一个位置，以保证当最长子数组包含第一个元素的时候，能正确计算长度）。</li>
+<li>在遍历过程中：<ol>
+<li>当<code>m.find(count) == m.end()</code>即新的count值首次出现，记录其位置。</li>
+<li>反之，更新res为较大值。</li>
+</ol>
+</li>
+</ol>
+<p>以下提供参考图片供读者理解：</p>
+<p><img src="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/Figures/535_Contiguous_Array.PNG" alt=""></p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findMaxLength</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>, count = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m;</span><br><span class="line">    m[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size(); i++) &#123;</span><br><span class="line">        count += nums[i] ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">if</span> (m.find(count) == m.end()) m[count] = i;</span><br><span class="line">        <span class="keyword">else</span> res = max(res, i - m[count]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3298/" target="_blank" rel="noopener">Contiguous Array</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-2</title>
-      <link href="/2020/04/04/leetcode-day-2/"/>
-      <url>/2020/04/04/leetcode-day-2/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-2"><a href="#LeetCode-30-days-Challenge-Day-2" class="headerlink" title="LeetCode 30 days Challenge - Day 2"></a>LeetCode 30 days Challenge - Day 2</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Happy-Number"><a href="#Happy-Number" class="headerlink" title="Happy Number"></a>Happy Number</h2><p>Write an algorithm to determine if a number is “happy”.</p><p>A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.</p><p><strong>Example:</strong> </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: 19</span><br><span class="line">Output: true</span><br><span class="line">Explanation: </span><br><span class="line">1^2 + 9^2 &#x3D; 82</span><br><span class="line">8^2 + 2^2 &#x3D; 68</span><br><span class="line">6^2 + 8^2 &#x3D; 100</span><br><span class="line">1^2 + 0^2 + 0^2 &#x3D; 1</span><br></pre></td></tr></table></figure><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整数，将该整数每一位平方加和得到新的整数，重复直到整数为1或出现循环。</p><p>解法：</p><p>快慢指针：遇到出现循环情况的题目，可以考虑快慢指针的方法：</p><ul><li>快指针：一次走2步（在本题中即进行两次运算）。</li><li>慢指针：一次走1步（进行一次运算）。</li></ul><p>在若干次迭代后，如果存在循环，快慢指针会指向同一值，此时退出循环即可。</p><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">get_pow</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (n) &#123;</span><br><span class="line">            tmp += (n % <span class="number">10</span>) * (n % <span class="number">10</span>);</span><br><span class="line">            n /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isHappy</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">int</span> slow = n, fast = n;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            slow = get_pow(slow);</span><br><span class="line">            fast = get_pow(fast);</span><br><span class="line">            fast = get_pow(fast);</span><br><span class="line">        &#125; <span class="keyword">while</span> (slow != fast);</span><br><span class="line">        <span class="keyword">return</span> (slow == <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3284/" target="_blank" rel="noopener">Happy Number</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-14</title>
+    <url>/2020/04/14/leetcode-day-14/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-14"><a href="#LeetCode-30-days-Challenge-Day-14" class="headerlink" title="LeetCode 30 days Challenge - Day 14"></a>LeetCode 30 days Challenge - Day 14</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Perform-String-Shifts"><a href="#Perform-String-Shifts" class="headerlink" title="Perform String Shifts"></a>Perform String Shifts</h2><p>You are given a string <code>s</code> containing lowercase English letters, and a matrix <code>shift</code>, where <code>shift[i] = [direction, amount]</code>:</p>
+<ul>
+<li><code>direction</code> can be <code>0</code> (for left shift) or <code>1</code> (for right shift). </li>
+<li><code>amount</code> is the amount by which string <code>s</code> is to be shifted.</li>
+<li>A left shift by 1 means remove the first character of <code>s</code> and append it to the end.</li>
+<li>Similarly, a right shift by 1 means remove the last character of <code>s</code> and add it to the beginning.</li>
+</ul>
+<p>Return the final string after all operations.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: s &#x3D; &quot;abc&quot;, shift &#x3D; [[0,1],[1,2]]</span><br><span class="line">Output: &quot;cab&quot;</span><br><span class="line">Explanation: </span><br><span class="line">[0,1] means shift to left by 1. &quot;abc&quot; -&gt; &quot;bca&quot;</span><br><span class="line">[1,2] means shift to right by 2. &quot;bca&quot; -&gt; &quot;cab&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: s &#x3D; &quot;abcdefg&quot;, shift &#x3D; [[1,1],[1,1],[0,2],[1,3]]</span><br><span class="line">Output: &quot;efgabcd&quot;</span><br><span class="line">Explanation:  </span><br><span class="line">[1,1] means shift to right by 1. &quot;abcdefg&quot; -&gt; &quot;gabcdef&quot;</span><br><span class="line">[1,1] means shift to right by 1. &quot;gabcdef&quot; -&gt; &quot;fgabcde&quot;</span><br><span class="line">[0,2] means shift to left by 2. &quot;fgabcde&quot; -&gt; &quot;abcdefg&quot;</span><br><span class="line">[1,3] means shift to right by 3. &quot;abcdefg&quot; -&gt; &quot;efgabcd&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 100</code></li>
+<li><code>s</code> only contains lower case English letters.</li>
+<li><code>1 &lt;= shift.length &lt;= 100</code></li>
+<li><code>shift[i].length == 2</code></li>
+<li><code>0 &lt;= shift[i][0] &lt;= 1</code></li>
+<li><code>0 &lt;= shift[i][1] &lt;= 100</code></li>
+</ul>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个原始字符串以及一个位移指令集合shift，shift数组中，每个元素是一个二元组，依次表示对字符串进行的位移操作方向以及位数，要求返回最后处理完成的字符串。</p>
+<p>解法：</p>
+<p>本题提示中，说明了在限制条件下，直接暴力模拟也能通过，但这肯定不是我们想要的答案，为了尽可能减少“移动”操作，先来分析移动操作的特点：</p>
+<ol>
+<li>方向0：向左移动amount个元素，实际上是将<code>前amount个元素移动到字符串尾部</code>。</li>
+<li>方向1：向右移动amount个元素，实际上是将<code>后amount个元素移动到字符串头部</code>。</li>
+</ol>
+<p>两次方向不同、amount相同的移动，将相互抵消：<code>abcd -0,2-&gt; cdab -1,2-&gt; abcd</code>。</p>
+<p>由此，推断出最便利的做法是，先遍历shift数组，记录最终需要移动的步数（final_amount），具体措施：</p>
+<ol>
+<li>遇到方向0，final_amount减去对应amount；</li>
+<li>遇到方向1，final_amount加上对应amount；</li>
+</ol>
+<p>最后，根据final_amount的正负（注意对长度取模，长度为n的字符串移动n次将恢复原状），依据移动操作的特点进行处理即可。</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">stringShift</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; shift)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">string</span> res = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">int</span> final_amount = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v : shift) final_amount += v[<span class="number">0</span>] ? v[<span class="number">1</span>] : -v[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">if</span> (final_amount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        final_amount %= s.length();</span><br><span class="line">        res = s.substr(<span class="number">0</span>, s.length() - final_amount);</span><br><span class="line">        res = s.substr(s.length() - final_amount) + res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        final_amount = (-final_amount) % s.length();</span><br><span class="line">        res = s.substr(final_amount);</span><br><span class="line">        res += s.substr(<span class="number">0</span>, final_amount);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3299/" target="_blank" rel="noopener">Perform String Shifts</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>leetcode-day-1</title>
-      <link href="/2020/04/04/leetcode-day-1/"/>
-      <url>/2020/04/04/leetcode-day-1/</url>
-      
-        <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-1"><a href="#LeetCode-30-days-Challenge-Day-1" class="headerlink" title="LeetCode 30 days Challenge - Day 1"></a>LeetCode 30 days Challenge - Day 1</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Single-Number"><a href="#Single-Number" class="headerlink" title="Single Number"></a>Single Number</h2><p>Given a <strong>non-empty</strong> array of integers, every element appears <em>twice</em> except for one. Find that single one.</p><p><strong>Note:</strong></p><p>Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?</p><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [2,2,1]</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure><p><strong>Example 2:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [4,1,2,1,2]</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定非空数组，找到单独出现的元素。</p><ul><li><p>时间复杂度：O(n)</p></li><li><p>空间复杂度：O(1)</p></li></ul><p>解法：</p><p>关键利用异或运算符<code>^</code>，对于异或运算：</p><ul><li>a ^ a == 0</li><li>a ^ 0 == a</li><li>a ^ b ^ c = a ^ c ^ b</li></ul><p>结合题目给出除了目标元素外，其余元素各出现两次，不难想到遍历整个数组，逐个将元素进行异或运算，最后剩下的元素即为目标。</p><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums) res ^= n;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/other/card/30-day-leetcoding-challenge/528/week-1/3283/" target="_blank" rel="noopener">Single Number</a></p><p>Karl</p>]]></content>
-      
-      
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-16</title>
+    <url>/2020/04/16/leetcode-day-16/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-16"><a href="#LeetCode-30-days-Challenge-Day-16" class="headerlink" title="LeetCode 30 days Challenge - Day 16"></a>LeetCode 30 days Challenge - Day 16</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Valid-Parenthesis-String"><a href="#Valid-Parenthesis-String" class="headerlink" title="Valid Parenthesis String"></a>Valid Parenthesis String</h2><p>Given a string containing only three types of characters: ‘(‘, ‘)’ and ‘*’, write a function to check whether this string is valid. We define the validity of a string by these rules:</p>
+<ol>
+<li>Any left parenthesis <code>&#39;(&#39;</code> must have a corresponding right parenthesis <code>&#39;)&#39;</code>.</li>
+<li>Any right parenthesis <code>&#39;)&#39;</code> must have a corresponding left parenthesis <code>&#39;(&#39;</code>.</li>
+<li>Left parenthesis <code>&#39;(&#39;</code> must go before the corresponding right parenthesis <code>&#39;)&#39;</code>.</li>
+<li><code>&#39;*&#39;</code> could be treated as a single right parenthesis <code>&#39;)&#39;</code> or a single left parenthesis <code>&#39;(&#39;</code> or an empty string.</li>
+<li>An empty string is also valid.</li>
+</ol>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;()&quot;</span><br><span class="line">Output: True</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;(*)&quot;</span><br><span class="line">Output: True</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: &quot;(*))&quot;</span><br><span class="line">Output: True</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note:</strong></p>
+<ol>
+<li>The string size will be in the range [1, 100].</li>
+</ol>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个包含左右圆括号以及星号的字符串，其中星号可以视为左右圆括号或者空字符串，判断该字符串是否符合规范。</p>
+<p>解法：</p>
+<p>本题乍一看像栈结构的经典例题，但本题引入了<code>*</code>号的特殊性，带来了一定难度。</p>
+<p>首先考虑，<code>*</code>的引入带来的影响：</p>
+<ol>
+<li>假若视为 <code>(</code>，那么需要一个额外的 <code>)</code> 进行匹配。</li>
+<li>假若视为 <code>)</code>，那么能额外匹配一个位置在其之前的 <code>(</code> 。</li>
+<li>假若视为空，那么没有影响。</li>
+</ol>
+<p>由于一个符合规范的序列，<code>(</code>往往先于<code>)</code>出现，因此可以考虑 <code>*</code> 的不同取值，对需要的 <code>)</code> 数量的影响。</p>
+<p>假设，最少需要min_num个 <code>)</code>，最多需要max_num个 <code>)</code>，问题转化为 <code>*</code> 的不同取值，对上述两个变量的影响：</p>
+<ol>
+<li>遇到 <code>(</code>：min_num、max_num都增加1，这是显然的。</li>
+<li>遇到 <code>)</code>：<ol>
+<li>max_num减少1，这也是显然的；</li>
+<li>min_num也减少1，但不少于0（右括号只能匹配其左边的左括号，如果min_num减少成负数，相当于之后的右括号匹配了之前的左括号，是不符合常理的）。</li>
+</ol>
+</li>
+<li>遇到 <code>*</code>：<ol>
+<li>因为可以看成一个 <code>(</code>，max_num增加1；</li>
+<li>也可以看成一个 <code>)</code>，min_num也减少1，但不少于0（理由同上）。</li>
+<li>看成空串则不会造成影响。</li>
+</ol>
+</li>
+</ol>
+<p>在遍历过程中，若出现max_num小于0的情况，即出现了一个无法匹配的右括号，直接返回 <code>false</code>。</p>
+<p>最后，因为min_num是最少需要的条件，判断min_num是否为0即可。</p>
+<p>注：本题较难理解的是min_num在遍历过程中不能小于0的原因：小于0则相当于某一个左括号之后的右括号匹配了该左括号，是不符合常理的，这两个括号就是这种情况“ )( ”。</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">checkValidString</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> min_num = <span class="number">0</span>, max_num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : s) &#123;</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="string">'('</span>) &#123;</span><br><span class="line">            min_num++;</span><br><span class="line">            max_num++;                    </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">')'</span>) &#123;</span><br><span class="line">            min_num = max(min_num<span class="number">-1</span>, <span class="number">0</span>);</span><br><span class="line">            max_num--;          </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            min_num = max(min_num<span class="number">-1</span>, <span class="number">0</span>);</span><br><span class="line">            max_num++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (max_num &lt; <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> min_num == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/530/week-3/3301/" target="_blank" rel="noopener">Valid Parenthesis String</a></p>
+<p>Karl</p>
+]]></content>
       <categories>
-          
-          <category> Algorithms </category>
-          
+        <category>Algorithms</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> LeetCode </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-day-17</title>
+    <url>/2020/04/17/leetcode-day-17/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-17"><a href="#LeetCode-30-days-Challenge-Day-17" class="headerlink" title="LeetCode 30 days Challenge - Day 17"></a>LeetCode 30 days Challenge - Day 17</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Number-of-Islands"><a href="#Number-of-Islands" class="headerlink" title="Number of Islands"></a>Number of Islands</h2><p>Given a 2d grid map of <code>&#39;1&#39;</code>s (land) and <code>&#39;0&#39;</code>s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input:</span><br><span class="line">11110</span><br><span class="line">11010</span><br><span class="line">11000</span><br><span class="line">00000</span><br><span class="line"></span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input:</span><br><span class="line">11000</span><br><span class="line">11000</span><br><span class="line">00100</span><br><span class="line">00011</span><br><span class="line"></span><br><span class="line">Output: 3</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个只含有字符<code>0</code>和<code>1</code>的二维数组，其中0代表海洋、1代表陆地，<code>连接在一起</code>的陆地构成一座<code>岛屿</code>，求地图中岛屿的个数。</p>
+<p>解法：</p>
+<p>典型的DFS或BFS问题，本题中可以直接修改grid值，在访问过陆地(1)之后可以将之修改为海洋(0)，无需额外设立一个访问数组。</p>
+<p>具体过程如下：</p>
+<ol>
+<li>新建一个变量nums记录岛屿数。</li>
+<li>遍历整个数组，遇到为<code>陆地</code>的元素时，以该元素位置为起点进行深度优先搜索，确保其所在岛屿所有的陆地都被访问到并且修改为海洋。</li>
+</ol>
+<p>因为每次访问都保证其所在岛屿所有的陆地都被访问到并且修改为海洋，所以遇到新的陆地时将nums加1。</p>
+<p>注：本题所给的grid数组是<code>char 字符型</code>数组！进行判断时候不可以写<code>if (grid[i][j])</code>而要写<code>if (grid[i][j]==&#39;1&#39;)</code>。</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dirs = &#123;&#123;<span class="number">-1</span>, <span class="number">0</span>&#125;, &#123;<span class="number">1</span>, <span class="number">0</span>&#125;, &#123;<span class="number">0</span>, <span class="number">-1</span>&#125;, &#123;<span class="number">0</span>, <span class="number">1</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x&lt;<span class="number">0</span> || x&gt;grid.size()<span class="number">-1</span> || y&lt;<span class="number">0</span> || y&gt;grid[<span class="number">0</span>].size()<span class="number">-1</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (grid[x][y]==<span class="string">'1'</span>) &#123;</span><br><span class="line">        grid[x][y] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> dir : dirs) dfs(x+dir[<span class="number">0</span>], y+dir[<span class="number">1</span>], grid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">numIslands</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> nums = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;grid.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j&lt;grid[<span class="number">0</span>].size(); j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (grid[i][j]==<span class="string">'1'</span>) &#123;</span><br><span class="line">                nums++;</span><br><span class="line">                dfs(i, j, grid);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/530/week-3/3302/" target="_blank" rel="noopener">Number of Islands</a></p>
+<p>Karl</p>
+]]></content>
+      <categories>
+        <category>Algorithms</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
 </search>
