@@ -22,21 +22,21 @@
     var CONFIG = {"hostname":"karlszp.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Day-13 Contiguous Array">
+  <meta name="description" content="Day-20 Construct Binary Search Tree from Preorder Traversal">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode-day-13">
-<meta property="og:url" content="https://karlszp.github.io/2020/04/13/leetcode-day-13/index.html">
+<meta property="og:title" content="leetcode-day-20">
+<meta property="og:url" content="https://karlszp.github.io/2020/04/20/leetcode-day-20/index.html">
 <meta property="og:site_name" content="Karl&#39;s Nest">
-<meta property="og:description" content="Day-13 Contiguous Array">
-<meta property="og:image" content="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/Figures/535_Contiguous_Array.PNG">
-<meta property="article:published_time" content="2020-04-13T08:04:47.000Z">
-<meta property="article:modified_time" content="2020-04-13T08:05:31.938Z">
+<meta property="og:description" content="Day-20 Construct Binary Search Tree from Preorder Traversal">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2019/03/06/1266.png">
+<meta property="article:published_time" content="2020-04-20T08:45:24.000Z">
+<meta property="article:modified_time" content="2020-04-20T08:45:55.174Z">
 <meta property="article:author" content="Karl Szp">
 <meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/Figures/535_Contiguous_Array.PNG">
+<meta name="twitter:image" content="https://assets.leetcode.com/uploads/2019/03/06/1266.png">
 
-<link rel="canonical" href="https://karlszp.github.io/2020/04/13/leetcode-day-13/">
+<link rel="canonical" href="https://karlszp.github.io/2020/04/20/leetcode-day-20/">
 
 
 <script id="page-configurations">
@@ -49,7 +49,7 @@
   };
 </script>
 
-  <title>leetcode-day-13 | Karl's Nest</title>
+  <title>leetcode-day-20 | Karl's Nest</title>
   
 
 
@@ -200,7 +200,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://karlszp.github.io/2020/04/13/leetcode-day-13/">
+    <link itemprop="mainEntityOfPage" href="https://karlszp.github.io/2020/04/20/leetcode-day-20/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -213,7 +213,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          leetcode-day-13
+          leetcode-day-20
         </h1>
 
         <div class="post-meta">
@@ -224,7 +224,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-13 16:04:47 / Modified: 16:05:31" itemprop="dateCreated datePublished" datetime="2020-04-13T16:04:47+08:00">2020-04-13</time>
+              <time title="Created: 2020-04-20 16:45:24 / Modified: 16:45:55" itemprop="dateCreated datePublished" datetime="2020-04-20T16:45:24+08:00">2020-04-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +237,7 @@
             </span>
 
           
-            <div class="post-description">Day-13 Contiguous Array</div>
+            <div class="post-description">Day-20 Construct Binary Search Tree from Preorder Traversal</div>
 
         </div>
       </header>
@@ -248,37 +248,42 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="LeetCode-30-days-Challenge-Day-13"><a href="#LeetCode-30-days-Challenge-Day-13" class="headerlink" title="LeetCode 30 days Challenge - Day 13"></a>LeetCode 30 days Challenge - Day 13</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+        <h1 id="LeetCode-30-days-Challenge-Day-20"><a href="#LeetCode-30-days-Challenge-Day-20" class="headerlink" title="LeetCode 30 days Challenge - Day 20"></a>LeetCode 30 days Challenge - Day 20</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
 <hr>
-<h2 id="Contiguous-Array"><a href="#Contiguous-Array" class="headerlink" title="Contiguous Array"></a>Contiguous Array</h2><p>Given a binary array, find the maximum length of a contiguous subarray with equal number of 0 and 1.</p>
+<h2 id="Construct-Binary-Search-Tree-from-Preorder-Traversal"><a href="#Construct-Binary-Search-Tree-from-Preorder-Traversal" class="headerlink" title="Construct Binary Search Tree from Preorder Traversal"></a>Construct Binary Search Tree from Preorder Traversal</h2><p>Return the root node of a binary <strong>search</strong> tree that matches the given <code>preorder</code> traversal.</p>
+<p><em>(Recall that a binary search tree is a binary tree where for every node, any descendant of <code>node.left</code> has a value <code>&lt;</code> <code>node.val</code>, and any descendant of <code>node.right</code> has a value <code>&gt;</code> <code>node.val</code>. Also recall that a preorder traversal displays the value of the <code>node</code> first, then traverses <code>node.left</code>, then traverses <code>node.right</code>.)</em></p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [0,1]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: [0, 1] is the longest contiguous subarray with equal number of 0 and 1.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [8,5,1,7,10,12]</span><br><span class="line">Output: [8,5,10,1,7,null,12]</span><br></pre></td></tr></table></figure>
 
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [0,1,0]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.</span><br></pre></td></tr></table></figure>
+<img src="https://assets.leetcode.com/uploads/2019/03/06/1266.png" alt="img" style="zoom:50%;" />
 
-<p><strong>Note:</strong> The length of the given binary array will not exceed 50,000.</p>
-<hr>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个只包含0或1的数组，求满足条件（子数组中0和1数量相等）的最长连续子数组的长度。</p>
-<p>解法：</p>
-<p>本题关键是遍历数组，确保不漏掉符合条件的子数组，并更新最大长度。</p>
-<p>这里为了减少空间复杂度，使用哈希结构建立count（初始为0，遇0减1，遇1加1）到pos（count第一次出现的位置）的映射：</p>
+<p><strong>Note:</strong> </p>
 <ol>
-<li>初始化res为最大长度，count为当前1和0的个数差，负数表示0比1多。</li>
-<li>建立映射，初始化<code>m[0] = -1</code>的意义是：无论第一个元素是0还是1，count都将变为非0，因此，count=0首次出现的位置实际上是<code>-1</code>处（不存在，只是虚拟出一个位置，以保证当最长子数组包含第一个元素的时候，能正确计算长度）。</li>
-<li>在遍历过程中：<ol>
-<li>当<code>m.find(count) == m.end()</code>即新的count值首次出现，记录其位置。</li>
-<li>反之，更新res为较大值。</li>
+<li><code>1 &lt;= preorder.length &lt;= 100</code></li>
+<li>The values of <code>preorder</code> are distinct.</li>
+</ol>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个二叉搜索树的前序遍历序列，要求还原该二叉树。</p>
+<p>解法：</p>
+<p>本题只要了解：</p>
+<ol>
+<li>二叉搜索树的特性：<ol>
+<li>对任意结点，其结点值永远满足（如果存在）：<code>左儿子 &lt; 根 &lt; 右儿子</code>；</li>
+<li>由此推出，<code>左子树任意值 &lt; 根 &lt; 右子树任意值</code>；</li>
 </ol>
 </li>
+<li>前序遍历：<code>根 -&gt; 左 -&gt; 右</code> 顺序进行遍历。</li>
 </ol>
-<p>以下提供参考图片供读者理解：</p>
-<p><img src="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/Figures/535_Contiguous_Array.PNG" alt=""></p>
+<p>由此，总结还原的思想是：</p>
+<ol>
+<li>对当前序列，第一个值是根结点，剩余序列中，比第一个值小的是左子树，剩余为右子树。</li>
+<li>递归操作即可，当序列只有一个元素时，直接返回。</li>
+</ol>
 <hr>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findMaxLength</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>, count = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m;</span><br><span class="line">    m[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size(); i++) &#123;</span><br><span class="line">        count += nums[i] ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">if</span> (m.find(count) == m.end()) m[count] = i;</span><br><span class="line">        <span class="keyword">else</span> res = max(res, i - m[count]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TreeNode* <span class="title">build</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; preorder, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l == r) <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(preorder[l]);</span><br><span class="line">    TreeNode* root = <span class="keyword">new</span> TreeNode(preorder[l]);</span><br><span class="line">    <span class="keyword">int</span> i = l + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt;= r &amp;&amp; preorder[i] &lt; root-&gt;val) i++;</span><br><span class="line">    root-&gt;left = (i == l + <span class="number">1</span>) ? <span class="literal">NULL</span> : build(preorder, l + <span class="number">1</span>, i - <span class="number">1</span>);</span><br><span class="line">    root-&gt;right = (i &gt; r) ? <span class="literal">NULL</span> : build(preorder, i, r);</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">TreeNode* <span class="title">bstFromPreorder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; preorder)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (preorder.empty()) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> build(preorder, <span class="number">0</span>, preorder.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3298/" target="_blank" rel="noopener">Contiguous Array</a></p>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/530/week-3/3305/" target="_blank" rel="noopener">Construct Binary Search Tree from Preorder Traversal</a></p>
 <p>Karl</p>
 
     </div>
@@ -298,13 +303,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/12/leetcode-day-12/" rel="prev" title="leetcode-day-12">
-      <i class="fa fa-chevron-left"></i> leetcode-day-12
+    <a href="/2020/04/20/leetcode-day-19/" rel="prev" title="leetcode-day-19">
+      <i class="fa fa-chevron-left"></i> leetcode-day-19
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/04/14/leetcode-day-14/" rel="next" title="leetcode-day-14">
-      leetcode-day-14 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -363,7 +365,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode-30-days-Challenge-Day-13"><span class="nav-number">1.</span> <span class="nav-text">LeetCode 30 days Challenge - Day 13</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Contiguous-Array"><span class="nav-number">1.1.</span> <span class="nav-text">Contiguous Array</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.2.</span> <span class="nav-text">Solution</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode-30-days-Challenge-Day-20"><span class="nav-number">1.</span> <span class="nav-text">LeetCode 30 days Challenge - Day 20</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Construct-Binary-Search-Tree-from-Preorder-Traversal"><span class="nav-number">1.1.</span> <span class="nav-text">Construct Binary Search Tree from Preorder Traversal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.2.</span> <span class="nav-text">Solution</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

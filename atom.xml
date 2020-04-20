@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://karlszp.github.io/"/>
-  <updated>2020-04-20T03:39:18.418Z</updated>
+  <updated>2020-04-20T08:45:55.174Z</updated>
   <id>https://karlszp.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode-day-20</title>
+    <link href="https://karlszp.github.io/2020/04/20/leetcode-day-20/"/>
+    <id>https://karlszp.github.io/2020/04/20/leetcode-day-20/</id>
+    <published>2020-04-20T08:45:24.000Z</published>
+    <updated>2020-04-20T08:45:55.174Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-20"><a href="#LeetCode-30-days-Challenge-Day-20" class="headerlink" title="LeetCode 30 days Challenge - Day 20"></a>LeetCode 30 days Challenge - Day 20</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p><hr><h2 id="Construct-Binary-Search-Tree-from-Preorder-Traversal"><a href="#Construct-Binary-Search-Tree-from-Preorder-Traversal" class="headerlink" title="Construct Binary Search Tree from Preorder Traversal"></a>Construct Binary Search Tree from Preorder Traversal</h2><p>Return the root node of a binary <strong>search</strong> tree that matches the given <code>preorder</code> traversal.</p><p><em>(Recall that a binary search tree is a binary tree where for every node, any descendant of <code>node.left</code> has a value <code>&lt;</code> <code>node.val</code>, and any descendant of <code>node.right</code> has a value <code>&gt;</code> <code>node.val</code>. Also recall that a preorder traversal displays the value of the <code>node</code> first, then traverses <code>node.left</code>, then traverses <code>node.right</code>.)</em></p><p><strong>Example 1:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [8,5,1,7,10,12]</span><br><span class="line">Output: [8,5,10,1,7,null,12]</span><br></pre></td></tr></table></figure><img src="https://assets.leetcode.com/uploads/2019/03/06/1266.png" alt="img" style="zoom:50%;" /><p><strong>Note:</strong> </p><ol><li><code>1 &lt;= preorder.length &lt;= 100</code></li><li>The values of <code>preorder</code> are distinct.</li></ol><hr><h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个二叉搜索树的前序遍历序列，要求还原该二叉树。</p><p>解法：</p><p>本题只要了解：</p><ol><li>二叉搜索树的特性：<ol><li>对任意结点，其结点值永远满足（如果存在）：<code>左儿子 &lt; 根 &lt; 右儿子</code>；</li><li>由此推出，<code>左子树任意值 &lt; 根 &lt; 右子树任意值</code>；</li></ol></li><li>前序遍历：<code>根 -&gt; 左 -&gt; 右</code> 顺序进行遍历。</li></ol><p>由此，总结还原的思想是：</p><ol><li>对当前序列，第一个值是根结点，剩余序列中，比第一个值小的是左子树，剩余为右子树。</li><li>递归操作即可，当序列只有一个元素时，直接返回。</li></ol><hr><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TreeNode* <span class="title">build</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; preorder, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l == r) <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(preorder[l]);</span><br><span class="line">    TreeNode* root = <span class="keyword">new</span> TreeNode(preorder[l]);</span><br><span class="line">    <span class="keyword">int</span> i = l + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt;= r &amp;&amp; preorder[i] &lt; root-&gt;val) i++;</span><br><span class="line">    root-&gt;left = (i == l + <span class="number">1</span>) ? <span class="literal">NULL</span> : build(preorder, l + <span class="number">1</span>, i - <span class="number">1</span>);</span><br><span class="line">    root-&gt;right = (i &gt; r) ? <span class="literal">NULL</span> : build(preorder, i, r);</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">TreeNode* <span class="title">bstFromPreorder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; preorder)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (preorder.empty()) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> build(preorder, <span class="number">0</span>, preorder.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/530/week-3/3305/" target="_blank" rel="noopener">Construct Binary Search Tree from Preorder Traversal</a></p><p>Karl</p>]]></content>
+    
+    <summary type="html">
+    
+      Day-20 Construct Binary Search Tree from Preorder Traversal
+    
+    </summary>
+    
+    
+      <category term="Algorithms" scheme="https://KARLSZP.github.io/categories/Algorithms/"/>
+    
+    
+      <category term="LeetCode" scheme="https://KARLSZP.github.io/tags/LeetCode/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode-day-19</title>
