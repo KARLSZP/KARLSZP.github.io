@@ -22,21 +22,24 @@
     var CONFIG = {"hostname":"karlszp.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Day-20 Construct Binary Search Tree from Preorder Traversal">
+  <meta name="description" content="Day-21 Leftmost Column with at Least a One">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode-day-20">
-<meta property="og:url" content="https://karlszp.github.io/2020/04/20/leetcode-day-20/index.html">
+<meta property="og:title" content="leetcode-day-21">
+<meta property="og:url" content="https://karlszp.github.io/2020/04/21/leetcode-day-21/index.html">
 <meta property="og:site_name" content="Karl&#39;s Nest">
-<meta property="og:description" content="Day-20 Construct Binary Search Tree from Preorder Traversal">
-<meta property="og:image" content="https://assets.leetcode.com/uploads/2019/03/06/1266.png">
-<meta property="article:published_time" content="2020-04-20T08:45:24.000Z">
-<meta property="article:modified_time" content="2020-04-20T08:45:55.174Z">
+<meta property="og:description" content="Day-21 Leftmost Column with at Least a One">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2019/10/25/untitled-diagram-5.jpg">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2019/10/25/untitled-diagram-4.jpg">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2019/10/25/untitled-diagram-3.jpg">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2019/10/25/untitled-diagram-6.jpg">
+<meta property="article:published_time" content="2020-04-21T09:23:21.000Z">
+<meta property="article:modified_time" content="2020-04-21T09:23:42.282Z">
 <meta property="article:author" content="Karl Szp">
 <meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://assets.leetcode.com/uploads/2019/03/06/1266.png">
+<meta name="twitter:image" content="https://assets.leetcode.com/uploads/2019/10/25/untitled-diagram-5.jpg">
 
-<link rel="canonical" href="https://karlszp.github.io/2020/04/20/leetcode-day-20/">
+<link rel="canonical" href="https://karlszp.github.io/2020/04/21/leetcode-day-21/">
 
 
 <script id="page-configurations">
@@ -49,7 +52,7 @@
   };
 </script>
 
-  <title>leetcode-day-20 | Karl's Nest</title>
+  <title>leetcode-day-21 | Karl's Nest</title>
   
 
 
@@ -200,7 +203,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://karlszp.github.io/2020/04/20/leetcode-day-20/">
+    <link itemprop="mainEntityOfPage" href="https://karlszp.github.io/2020/04/21/leetcode-day-21/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -213,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          leetcode-day-20
+          leetcode-day-21
         </h1>
 
         <div class="post-meta">
@@ -224,7 +227,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-20 16:45:24 / Modified: 16:45:55" itemprop="dateCreated datePublished" datetime="2020-04-20T16:45:24+08:00">2020-04-20</time>
+              <time title="Created: 2020-04-21 17:23:21 / Modified: 17:23:42" itemprop="dateCreated datePublished" datetime="2020-04-21T17:23:21+08:00">2020-04-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +240,7 @@
             </span>
 
           
-            <div class="post-description">Day-20 Construct Binary Search Tree from Preorder Traversal</div>
+            <div class="post-description">Day-21 Leftmost Column with at Least a One</div>
 
         </div>
       </header>
@@ -248,42 +251,64 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="LeetCode-30-days-Challenge-Day-20"><a href="#LeetCode-30-days-Challenge-Day-20" class="headerlink" title="LeetCode 30 days Challenge - Day 20"></a>LeetCode 30 days Challenge - Day 20</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+        <h1 id="LeetCode-30-days-Challenge-Day-21"><a href="#LeetCode-30-days-Challenge-Day-21" class="headerlink" title="LeetCode 30 days Challenge - Day 21"></a>LeetCode 30 days Challenge - Day 21</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
 <hr>
-<h2 id="Construct-Binary-Search-Tree-from-Preorder-Traversal"><a href="#Construct-Binary-Search-Tree-from-Preorder-Traversal" class="headerlink" title="Construct Binary Search Tree from Preorder Traversal"></a>Construct Binary Search Tree from Preorder Traversal</h2><p>Return the root node of a binary <strong>search</strong> tree that matches the given <code>preorder</code> traversal.</p>
-<p><em>(Recall that a binary search tree is a binary tree where for every node, any descendant of <code>node.left</code> has a value <code>&lt;</code> <code>node.val</code>, and any descendant of <code>node.right</code> has a value <code>&gt;</code> <code>node.val</code>. Also recall that a preorder traversal displays the value of the <code>node</code> first, then traverses <code>node.left</code>, then traverses <code>node.right</code>.)</em></p>
+<h2 id="Leftmost-Column-with-at-Least-a-One"><a href="#Leftmost-Column-with-at-Least-a-One" class="headerlink" title="Leftmost Column with at Least a One"></a>Leftmost Column with at Least a One</h2><p><em>(This problem is an <strong>interactive problem</strong>.)</em></p>
+<p>A binary matrix means that all elements are <code>0</code> or <code>1</code>. For each <strong>individual</strong> row of the matrix, this row is sorted in non-decreasing order.</p>
+<p>Given a row-sorted binary matrix binaryMatrix, return leftmost column index(0-indexed) with at least a <code>1</code> in it. If such index doesn’t exist, return <code>-1</code>.</p>
+<p><strong>You can’t access the Binary Matrix directly.</strong> You may only access the matrix using a <code>BinaryMatrix</code> interface:</p>
+<ul>
+<li><code>BinaryMatrix.get(x, y)</code> returns the element of the matrix at index <code>(x, y)</code> (0-indexed).</li>
+<li><code>BinaryMatrix.dimensions()</code> returns a list of 2 elements <code>[n, m]</code>, which means the matrix is <code>n * m</code>.</li>
+</ul>
+<p>Submissions making more than <code>1000</code> calls to <code>BinaryMatrix.get</code> will be judged <em>Wrong Answer</em>. Also, any solutions that attempt to circumvent the judge will result in disqualification.</p>
+<p>For custom testing purposes you’re given the binary matrix <code>mat</code> as input in the following four examples. You will not have access the binary matrix directly. </p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [8,5,1,7,10,12]</span><br><span class="line">Output: [8,5,10,1,7,null,12]</span><br></pre></td></tr></table></figure>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/10/25/untitled-diagram-5.jpg" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: mat &#x3D; [[0,0],[1,1]]</span><br><span class="line">Output: 0</span><br></pre></td></tr></table></figure>
 
-<img src="https://assets.leetcode.com/uploads/2019/03/06/1266.png" alt="img" style="zoom:50%;" />
+<p><strong>Example 2:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/10/25/untitled-diagram-4.jpg" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: mat &#x3D; [[0,0],[0,1]]</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
 
-<p><strong>Note:</strong> </p>
-<ol>
-<li><code>1 &lt;= preorder.length &lt;= 100</code></li>
-<li>The values of <code>preorder</code> are distinct.</li>
-</ol>
+<p><strong>Example 3:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/10/25/untitled-diagram-3.jpg" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: mat &#x3D; [[0,0],[0,0]]</span><br><span class="line">Output: -1</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 4:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/10/25/untitled-diagram-6.jpg" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: mat &#x3D; [[0,0,0,1],[0,0,1,1],[0,1,1,1]]</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= mat.length, mat[i].length &lt;= 100</code></li>
+<li><code>mat[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
+<li><code>mat[i]</code> is sorted in a non-decreasing way.</li>
+</ul>
 <hr>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个二叉搜索树的前序遍历序列，要求还原该二叉树。</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：本题的解释较为生涩，简单来说：给定一个n x m的、只含有0或1的数组，找到其中含有1的、最左边的列，该数组每一行按照非降序排列。</p>
 <p>解法：</p>
-<p>本题只要了解：</p>
+<p>暴力搜索复杂度是O(nm)，采用二分降到O(nlogm)。</p>
+<p>具体实现思想如下：</p>
 <ol>
-<li>二叉搜索树的特性：<ol>
-<li>对任意结点，其结点值永远满足（如果存在）：<code>左儿子 &lt; 根 &lt; 右儿子</code>；</li>
-<li>由此推出，<code>左子树任意值 &lt; 根 &lt; 右子树任意值</code>；</li>
+<li>对每一列，使用变量flag（初始化为0）检测是否含有1：flag大于0则含有，反之不含有。</li>
+<li>对每一行，使用二分搜索，且注意每一行中1总在0的右边出现（题示：每一行非降序排列），为找到<code>最左边</code>的列，遵守以下规则：<ol>
+<li>若mid列含有1，记录之，并且尝试寻找更左边的一列：<code>r = mid</code>；</li>
+<li>若mid列不含有1，则尝试寻找更右边的一列：<code>l = mid + 1</code>；</li>
 </ol>
 </li>
-<li>前序遍历：<code>根 -&gt; 左 -&gt; 右</code> 顺序进行遍历。</li>
 </ol>
-<p>由此，总结还原的思想是：</p>
+<p>最后，当<code>l == r</code>退出时，检测res是否为-1（初始化值），若仍为-1，则需要对第 <code>l</code> 列再次进行检测。</p>
+<p>注：解释一下为什么只有为-1时需要检测：</p>
 <ol>
-<li>对当前序列，第一个值是根结点，剩余序列中，比第一个值小的是左子树，剩余为右子树。</li>
-<li>递归操作即可，当序列只有一个元素时，直接返回。</li>
+<li>退出时若res已经不为-1，则是通过规则1达到退出条件，说明正在尝试寻找“更左边”的一列，然而此时已经不存在更左边的合格列了，则无需检测。</li>
+<li>若仍为-1，说明正在通过规则2尝试寻找合法列，退出循环后需要进行检测看看最后是否找到。</li>
 </ol>
 <hr>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TreeNode* <span class="title">build</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; preorder, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l == r) <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(preorder[l]);</span><br><span class="line">    TreeNode* root = <span class="keyword">new</span> TreeNode(preorder[l]);</span><br><span class="line">    <span class="keyword">int</span> i = l + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt;= r &amp;&amp; preorder[i] &lt; root-&gt;val) i++;</span><br><span class="line">    root-&gt;left = (i == l + <span class="number">1</span>) ? <span class="literal">NULL</span> : build(preorder, l + <span class="number">1</span>, i - <span class="number">1</span>);</span><br><span class="line">    root-&gt;right = (i &gt; r) ? <span class="literal">NULL</span> : build(preorder, i, r);</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">TreeNode* <span class="title">bstFromPreorder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; preorder)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (preorder.empty()) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> build(preorder, <span class="number">0</span>, preorder.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">leftMostColumnWithOne</span><span class="params">(BinaryMatrix &amp;binaryMatrix)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = binaryMatrix.dimensions()[<span class="number">0</span>], m = binaryMatrix.dimensions()[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">0</span>, r = m - <span class="number">1</span>, res = <span class="number">-1</span>, flag = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = (l + r) / <span class="number">2</span>;</span><br><span class="line">        flag = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) flag += binaryMatrix.get(i, mid);</span><br><span class="line">        <span class="keyword">if</span> (flag) &#123;res = mid; r = mid;&#125;</span><br><span class="line">        <span class="keyword">else</span> l = mid + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (res == <span class="number">-1</span>) &#123;</span><br><span class="line">        flag = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) flag += binaryMatrix.get(i, l);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> flag ? l : res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/530/week-3/3305/" target="_blank" rel="noopener">Construct Binary Search Tree from Preorder Traversal</a></p>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/530/week-3/3306/" target="_blank" rel="noopener">Leftmost Column with at Least a One</a></p>
 <p>Karl</p>
 
     </div>
@@ -303,13 +328,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/20/leetcode-day-19/" rel="prev" title="leetcode-day-19">
-      <i class="fa fa-chevron-left"></i> leetcode-day-19
+    <a href="/2020/04/20/leetcode-day-20/" rel="prev" title="leetcode-day-20">
+      <i class="fa fa-chevron-left"></i> leetcode-day-20
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/04/21/leetcode-day-21/" rel="next" title="leetcode-day-21">
-      leetcode-day-21 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -368,7 +390,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode-30-days-Challenge-Day-20"><span class="nav-number">1.</span> <span class="nav-text">LeetCode 30 days Challenge - Day 20</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Construct-Binary-Search-Tree-from-Preorder-Traversal"><span class="nav-number">1.1.</span> <span class="nav-text">Construct Binary Search Tree from Preorder Traversal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.2.</span> <span class="nav-text">Solution</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode-30-days-Challenge-Day-21"><span class="nav-number">1.</span> <span class="nav-text">LeetCode 30 days Challenge - Day 21</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Leftmost-Column-with-at-Least-a-One"><span class="nav-number">1.1.</span> <span class="nav-text">Leftmost Column with at Least a One</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.2.</span> <span class="nav-text">Solution</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
