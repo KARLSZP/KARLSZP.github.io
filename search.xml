@@ -967,4 +967,46 @@
         <tag>LeetCode</tag>
       </tags>
   </entry>
+  <entry>
+    <title>leetcode-day-22</title>
+    <url>/2020/04/22/leetcode-day-22/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-22"><a href="#LeetCode-30-days-Challenge-Day-22" class="headerlink" title="LeetCode 30 days Challenge - Day 22"></a>LeetCode 30 days Challenge - Day 22</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Subarray-Sum-Equals-K"><a href="#Subarray-Sum-Equals-K" class="headerlink" title="Subarray Sum Equals K"></a>Subarray Sum Equals K</h2><p>Given an array of integers and an integer <strong>k</strong>, you need to find the total number of continuous subarrays whose sum equals to <strong>k</strong>.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input:nums &#x3D; [1,1,1], k &#x3D; 2</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note:</strong></p>
+<ol>
+<li>The length of the array is in range [1, 20,000].</li>
+<li>The range of numbers in the array is [-1000, 1000] and the range of the integer <strong>k</strong> is [-1e7, 1e7].</li>
+</ol>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一个整型数组、一个整数k，求数组中所有和为k的子数组个数。</p>
+<p>解法：</p>
+<p><em>本题暴力解法、求累计值再遍历的O(n^2^)解法较简单，可以参考原题讨论区，本文主要就介绍O(n)的做法。</em></p>
+<p>首先考虑该式：<code>前 i 项和 - 前 j 项和 = i 到 j 的和（i &gt; j）</code>；实际任务即：找到所有满足<code>i 到 j 的和</code>等于<code>k</code>的子数组。</p>
+<p>根据该思想，在遍历数组<code>nums</code>的过程中，假设当前位置为<code>i</code>，执行<code>nums[i] += nums[i-1]</code>，迭代来看，<code>nums[i]</code>即为<code>前 i 项和</code>。根据等式性质，只要检测<code>nums[i] - k</code>（即<code>nums[j]</code>）是否在之前出现过，就能确定是否存在子数组。</p>
+<p>我们使用一个哈希结构来存储 <code>前 i 项和</code>出现的次数，这样就能在一次遍历的过程中，O(1)时间找到答案。</p>
+<p>具体操作如下：</p>
+<ol>
+<li>进入循环，遍历nums；</li>
+<li>当累加后，如果当前值为k，说明从0到该位置的子数组满足条件，结果加1；</li>
+<li>在哈希表中查找 nums[i] - k：<code>m.find(nums[i] - k) != m.end()</code>，unordered_map的find方法，当键不存在时，返回位置end()；</li>
+<li>将当前nums[i]的值存入哈希表中，若已存在则加1：m[key]保存key出现的次数。</li>
+</ol>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">subarraySum</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; m;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt; <span class="number">0</span>) nums[i] += nums[i<span class="number">-1</span>];</span><br><span class="line">        res += nums[i] == k;</span><br><span class="line">        <span class="keyword">if</span> (m.find(nums[i] - k) != m.end()) res += m[nums[i] - k];</span><br><span class="line">        m[nums[i]]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/531/week-4/3307/" target="_blank" rel="noopener">Subarray Sum Equals K</a></p>
+<p>Karl</p>
+]]></content>
+      <categories>
+        <category>Algorithms</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
 </search>
