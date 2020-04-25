@@ -1134,4 +1134,46 @@
         <tag>LeetCode</tag>
       </tags>
   </entry>
+  <entry>
+    <title>leetcode-day-25</title>
+    <url>/2020/04/25/leetcode-day-25/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-25"><a href="#LeetCode-30-days-Challenge-Day-25" class="headerlink" title="LeetCode 30 days Challenge - Day 25"></a>LeetCode 30 days Challenge - Day 25</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Jump-Game"><a href="#Jump-Game" class="headerlink" title="Jump Game"></a>Jump Game</h2><p>Given an array of non-negative integers, you are initially positioned at the first index of the array.</p>
+<p>Each element in the array represents your maximum jump length at that position.</p>
+<p>Determine if you are able to reach the last index.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [2,3,1,1,4]</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [3,2,1,0,4]</span><br><span class="line">Output: false</span><br><span class="line">Explanation: You will always arrive at index 3 no matter what. Its maximum</span><br><span class="line">             jump length is 0, which makes it impossible to reach the last index.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定只含有非负元素的整型数组，从第一个位置开始，每一个元素值代表在该位置能够跳跃到达的最远距离，判断给定的数组能否依照规则到达最后一个位置。</p>
+<p>解法：</p>
+<p>本题采用双指针思想，尽可能优化了时间复杂度。</p>
+<p>以下简述双指针的方案：</p>
+<ol>
+<li>首先，对于<code>左指针 l</code>，<code>右指针 r</code>，每次进入while循环体，我们将检测两个指针之间的所有位置，看看这些位置有没有可能跳转到最后一个位置，若能，则返回<code>true</code>。</li>
+<li>假设不能，那么我们需要更新两个指针，且<code>尽可能使两个指针移动的足够快</code>：<ol>
+<li><code>l = r + 1</code>：左指针的更新发生在本次检测之后，我们期望<code>不要进行重复的检测来优化时间</code>，那么左指针将更新为<code>本次检测的最后一个位置的后一个位置</code>。</li>
+<li><code>r = nextr</code>：在检测两个指针中间位置过程中，将能到达的最远位置，更新给<code>nextr</code>，<code>nextr</code>用于记录下一次while循环应该检测的右指针位置。</li>
+</ol>
+</li>
+</ol>
+<p>注：参考上方第二个示例的情况，若对while循环不加退出条件，l、r将会一直为(3, 3)；为避免陷入死循环，检测到两次循环的左右指针全部未改变时，提前退出。</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">canJump</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>  n = nums.size() - <span class="number">1</span>, l = <span class="number">0</span>, r = <span class="number">0</span>, nextr;    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        nextr = nums[r] ? r + <span class="number">1</span> : r;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = l; i &lt;= r; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i + nums[i] &gt;= n) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">else</span> nextr = max(nextr, i + nums[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        l = r+<span class="number">1</span>;</span><br><span class="line">        r = nextr;</span><br><span class="line">    &#125; <span class="keyword">while</span> (l != r+<span class="number">1</span> || r != nextr);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/531/week-4/3310/" target="_blank" rel="noopener">Jump Game</a></p>
+<p>Karl</p>
+]]></content>
+      <categories>
+        <category>Algorithms</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
 </search>
