@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://karlszp.github.io/2020/04/29/leetcode-day-29/</loc>
+    
+    <lastmod>2020-04-29T11:02:54.027Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://karlszp.github.io/2020/04/29/Pytorch-tutorial-word-embedding/</loc>
     
     <lastmod>2020-04-29T09:02:28.503Z</lastmod>

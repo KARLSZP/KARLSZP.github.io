@@ -1455,4 +1455,57 @@
         <tag>DeepLearning</tag>
       </tags>
   </entry>
+  <entry>
+    <title>leetcode-day-29</title>
+    <url>/2020/04/29/leetcode-day-29/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-29"><a href="#LeetCode-30-days-Challenge-Day-29" class="headerlink" title="LeetCode 30 days Challenge - Day 29"></a>LeetCode 30 days Challenge - Day 29</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Binary-Tree-Maximum-Path-Sum"><a href="#Binary-Tree-Maximum-Path-Sum" class="headerlink" title="Binary Tree Maximum Path Sum"></a>Binary Tree Maximum Path Sum</h2><p>Given a <strong>non-empty</strong> binary tree, find the maximum path sum.</p>
+<p>For this problem, a path is defined as any sequence of nodes from some starting node to any node in the tree along the parent-child connections. The path must contain <strong>at least one node</strong> and does not need to go through the root.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [1,2,3]</span><br><span class="line"></span><br><span class="line">       1</span><br><span class="line">      &#x2F; \</span><br><span class="line">     2   3</span><br><span class="line"></span><br><span class="line">Output: 6</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [-10,9,20,null,null,15,7]</span><br><span class="line"></span><br><span class="line">   -10</span><br><span class="line">   &#x2F; \</span><br><span class="line">  9  20</span><br><span class="line">    &#x2F;  \</span><br><span class="line">   15   7</span><br><span class="line"></span><br><span class="line">Output: 42</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一棵非空二叉树，求其中最大路径和。注意此处的路径不一定经过根结点，路径至少有一个节点。</p>
+<p>解法：</p>
+<p>本题需要注意的是，存在负数结点值，传统的递归思想无法满足题目要求。</p>
+<p>对于当前结点，维护一个最大值变量res，我们需要考虑：</p>
+<ol>
+<li><p><strong>路径不允许分叉，那么若当前结点存在父节点、经过当前结点、还要向父节点走的路径只可能经过当前结点的左右子树之一，该定义是递归的。在下文，称这种情况为<code>无分叉子树</code></strong></p>
+</li>
+<li><p>最终经过当前结点的最大路径只有四种情况：</p>
+<ol>
+<li><p>经过当前结点、不经过子树：<code>无分叉子树最大路径和都为负数</code></p>
+<p><code>res = max(res, node-&gt;val + max(0, l) + max(0, r));</code></p>
+</li>
+<li><p>经过当前结点、当前节点的左子树、当前节点的右子树：<code>两颗无分叉子树最大路径和都不为负数</code></p>
+<p><code>res = max(res, node-&gt;val + max(0, l) + max(0, r));</code></p>
+</li>
+<li><p>经过当前结点、当前节点的左子树：<code>右无分叉子树最大路径和不为负数</code></p>
+<p>更新无分叉子树的最大路径和：<code>node-&gt;val += max(0, max(l, r));</code></p>
+</li>
+<li><p>经过当前结点、当前节点的右子树：<code>左无分叉子树最大路径和不为负数</code></p>
+<p>更新无分叉子树的最大路径和：<code>node-&gt;val += max(0, max(l, r));</code></p>
+</li>
+</ol>
+</li>
+</ol>
+<p>按以上思路，题解如下：</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getSubPathSum</span><span class="params">(TreeNode* node, <span class="keyword">int</span> &amp;res)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!node) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> l = getSubPathSum(node-&gt;left, res);</span><br><span class="line">    <span class="keyword">int</span> r = getSubPathSum(node-&gt;right, res);</span><br><span class="line">    res = max(res, node-&gt;val + max(<span class="number">0</span>, l) + max(<span class="number">0</span>, r));</span><br><span class="line">    node-&gt;val += max(<span class="number">0</span>, max(l, r));</span><br><span class="line">    <span class="keyword">return</span> node-&gt;val;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxPathSum</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = INT_MIN;</span><br><span class="line">    getSubPathSum(root, res);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/532/week-5/3314/" target="_blank" rel="noopener">Binary Tree Maximum Path Sum</a></p>
+<p>Karl</p>
+]]></content>
+      <categories>
+        <category>Algorithms</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
 </search>
