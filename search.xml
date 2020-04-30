@@ -1508,4 +1508,56 @@
         <tag>LeetCode</tag>
       </tags>
   </entry>
+  <entry>
+    <title>leetcode-day-30</title>
+    <url>/2020/04/30/leetcode-day-30/</url>
+    <content><![CDATA[<h1 id="LeetCode-30-days-Challenge-Day-30"><a href="#LeetCode-30-days-Challenge-Day-30" class="headerlink" title="LeetCode 30 days Challenge - Day 30"></a>LeetCode 30 days Challenge - Day 30</h1><p>本系列将对LeetCode新推出的30天算法挑战进行总结记录，旨在记录学习成果、方便未来查阅，同时望为广大网友提供帮助。</p>
+<hr>
+<h2 id="Check-If-a-String-Is-a-Valid-Sequence-from-Root-to-Leaves-Path-in-a-Binary-Tree"><a href="#Check-If-a-String-Is-a-Valid-Sequence-from-Root-to-Leaves-Path-in-a-Binary-Tree" class="headerlink" title="Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree"></a>Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree</h2><p>Given a binary tree where each path going from the root to any leaf form a <strong>valid sequence</strong>, check if a given string is a <strong>valid sequence</strong> in such binary tree. </p>
+<p>We get the given string from the concatenation of an array of integers <code>arr</code> and the concatenation of all values of the nodes along a path results in a <strong>sequence</strong> in the given binary tree.</p>
+<p><strong>Example 1:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/12/18/leetcode_testcase_1.png" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: root &#x3D; [0,1,0,0,1,0,null,null,1,0,0], arr &#x3D; [0,1,0,1]</span><br><span class="line">Output: true</span><br><span class="line">Explanation: </span><br><span class="line">The path 0 -&gt; 1 -&gt; 0 -&gt; 1 is a valid sequence (green color in the figure). </span><br><span class="line">Other valid sequences are: </span><br><span class="line">0 -&gt; 1 -&gt; 1 -&gt; 0 </span><br><span class="line">0 -&gt; 0 -&gt; 0</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/12/18/leetcode_testcase_2.png" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: root &#x3D; [0,1,0,0,1,0,null,null,1,0,0], arr &#x3D; [0,0,1]</span><br><span class="line">Output: false </span><br><span class="line">Explanation: The path 0 -&gt; 0 -&gt; 1 does not exist, therefore it is not even a sequence.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<p><strong><img src="https://assets.leetcode.com/uploads/2019/12/18/leetcode_testcase_3.png" alt="img"></strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: root &#x3D; [0,1,0,0,1,0,null,null,1,0,0], arr &#x3D; [0,1,1]</span><br><span class="line">Output: false</span><br><span class="line">Explanation: The path 0 -&gt; 1 -&gt; 1 is a sequence, but it is not a valid sequence.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= arr.length &lt;= 5000</code></li>
+<li><code>0 &lt;= arr[i] &lt;= 9</code></li>
+<li>Each node’s value is between [0 - 9].</li>
+</ul>
+<hr>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求分析：给定一棵二叉树以及一个整型数组，定义<code>从根出发直到叶子结点结束</code>的路径为一个<code>有效序列</code>，且整型数组按照元素位置连接成一个<code>序列</code>，求是否存在一个有效序列与数组确定的序列相同。</p>
+<p>解法：</p>
+<p>本题原题比较绕口、难以理解，实际上就是从二叉树根出发，寻找一条直达叶子结点的路径，路径上每个结点值依次与给定的整型数组相等。</p>
+<p>理解清楚题意后，本题就变得比较简单，DFS即可解决。</p>
+<p>这里梳理一下DFS过程中的退出条件，以下称数组确定的序列为<code>目标序列</code>：</p>
+<ol>
+<li><strong>当前位置已经超过数组长度：</strong>说明该路径还没到达叶子结点就已经超过目标序列的最大长度了，返回<code>false</code>。</li>
+<li><strong>当前位置未超过数组长度，且没有左右孩子，为叶子结点：</strong>说明当前路径是一个<code>有效序列</code>，且目标序列和该有效序列除了尾部元素其余值一致。因此只需要判断目标序列是否也到达尾部元素，尾部元素值是否与该叶子节点值相等，满足则该<code>有效序列</code>即为<code>目标序列</code>，返回<code>true</code>，反之返回<code>false</code>。</li>
+<li><strong>当前位置未超过数组长度，且不是叶子结点，且该位置元素值不等于目标序列对应位置元素值：</strong>说明该路径失效，返回<code>false</code>。</li>
+<li><strong>当前位置未超过数组长度、不是叶子结点、该位置元素值等于目标序列对应位置元素值：</strong>说明迄今为止的路径都满足目标序列的要求，需要接着往下考虑：对存在的孩子结点进行DFS，且只要有一个孩子满足条件就返回<code>true</code>，都不满足才返回<code>false</code>。</li>
+</ol>
+<p>以上解释为追求普适性，比较啰嗦，可以直接参考代码，代码可读性较强。</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">dfs</span><span class="params">(TreeNode* node, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;arr, <span class="keyword">int</span> pos)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (pos &gt; arr.size() - <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="comment">// leaf</span></span><br><span class="line">    <span class="keyword">if</span> (!node-&gt;left &amp;&amp; !node-&gt;right) &#123;</span><br><span class="line">        <span class="keyword">return</span> (pos == arr.size() - <span class="number">1</span> &amp;&amp; node-&gt;val == arr[pos]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// non-leaf</span></span><br><span class="line">    <span class="keyword">if</span> (node-&gt;val != arr[pos]) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">bool</span> flag = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (node-&gt;left) flag = dfs(node-&gt;left, arr, pos+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (node-&gt;right) flag = flag || dfs(node-&gt;right, arr, pos+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> flag;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isValidSequence</span><span class="params">(TreeNode* root, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> dfs(root, arr, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>传送门：<a href="https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/532/week-5/3315/" target="_blank" rel="noopener">Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree</a></p>
+<p>Karl</p>
+]]></content>
+      <categories>
+        <category>Algorithms</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+      </tags>
+  </entry>
 </search>
