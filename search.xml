@@ -1587,4 +1587,31 @@
         <tag>Machine-learning, Pattern-recognition</tag>
       </tags>
   </entry>
+  <entry>
+    <title>1.1-regularization</title>
+    <url>/2021/04/02/1-1-regularization/</url>
+    <content><![CDATA[<h2 id="Regularization-正则化"><a href="#Regularization-正则化" class="headerlink" title="Regularization 正则化"></a>Regularization 正则化</h2><blockquote>
+<p>  Ref: P9 - P10</p>
+</blockquote>
+<p>本节讨论了一个曲线拟合问题，待拟合的是一组有噪声的数据。</p>
+<p>这一问题中，待训练的模型如下：</p>
+<p>$$<br>y(x, \mathbf{w})=w_{0}+w_{1} x+w_{2} x^{2}+\ldots+w_{M} x^{M}=\sum_{j=0}^{M} w_{j} x^{j}<br>$$<br>当使用朴素的均方误差作为损失函数：<br>$$<br>E(\mathbf{w})=\frac{1}{2} \sum_{n=1}^{N}\left{y\left(x_{n}, \mathbf{w}\right)-t_{n}\right}^{2}<br>$$<br>且样本数量并不够大的时候，会出现严重的过拟合现象，如下左图。</p>
+<p><img src="assets/image-20210402165118711.png" alt="image-20210402165118711"></p>
+<p>为了克服这一问题，在均方误差基础上添加一个惩罚项，能有效修正这一问题：<br>$$<br>\widetilde{E}(\mathbf{w})=\frac{1}{2} \sum_{n=1}^{N}\left{y\left(x_{n}, \mathbf{w}\right)-t_{n}\right}^{2}+\frac{\lambda}{2}|\mathbf{w}|^{2}<br>$$<br>这一类做法被称为正则化，在统计学上是一种收缩（shrinkage）的方法。</p>
+<p>本例中的方法，在传统机器学习、统计学上称为岭回归（ridge regression）；在神经网络训练中称为 权重衰减（weight decay），也称为 L2 正则化。</p>
+<hr>
+<blockquote>
+<p>  Q1 为什么随着过拟合的发生，权重激增？</p>
+</blockquote>
+<blockquote>
+<p>  Q2 模型对数据的敏感程度与权重标准差较大的关系</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Book-review</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning, Pattern-recognition</tag>
+      </tags>
+  </entry>
 </search>

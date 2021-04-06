@@ -22,16 +22,21 @@
     var CONFIG = {"hostname":"karlszp.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="algorithm leetcode blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Karl&#39;s Nest">
-<meta property="og:url" content="https://karlszp.github.io/archives/index.html">
+  <meta name="description" content="ref 1.1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.1-regularization">
+<meta property="og:url" content="https://karlszp.github.io/2021/04/02/1-1-regularization/index.html">
 <meta property="og:site_name" content="Karl&#39;s Nest">
-<meta property="og:description" content="algorithm leetcode blog">
+<meta property="og:description" content="ref 1.1">
+<meta property="og:image" content="https://karlszp.github.io/2021/04/02/1-1-regularization/assets/image-20210402165118711.png">
+<meta property="article:published_time" content="2021-04-02T08:04:48.000Z">
+<meta property="article:modified_time" content="2021-04-06T09:16:03.142Z">
 <meta property="article:author" content="Karl Szp">
+<meta property="article:tag" content="Machine-learning, Pattern-recognition">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://karlszp.github.io/2021/04/02/1-1-regularization/assets/image-20210402165118711.png">
 
-<link rel="canonical" href="https://karlszp.github.io/archives/">
+<link rel="canonical" href="https://karlszp.github.io/2021/04/02/1-1-regularization/">
 
 
 <script id="page-configurations">
@@ -39,12 +44,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-Hans'
   };
 </script>
 
-  <title>Archive | Karl's Nest</title>
+  <title>1.1-regularization | Karl's Nest</title>
   
 
 
@@ -188,238 +193,115 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        
-        <span class="collection-header">OK! 32 posts in total. Keep on posting.</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://karlszp.github.io/2021/04/02/1-1-regularization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Karl Szp">
+      <meta itemprop="description" content="algorithm leetcode blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Karl's Nest">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          1.1-regularization
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-04-02 16:04:48" itemprop="dateCreated datePublished" datetime="2021-04-02T16:04:48+08:00">2021-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-04-06 17:16:03" itemprop="dateModified" datetime="2021-04-06T17:16:03+08:00">2021-04-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Book-review/" itemprop="url" rel="index"><span itemprop="name">Book-review</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">ref 1.1</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-04-02T16:04:48+08:00"
-              content="2021-04-02">
-          04-02
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/04/02/PRML-cookbook/" itemprop="url">
-            <span itemprop="name">PRML-cookbook</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-04-02T16:04:48+08:00"
-              content="2021-04-02">
-          04-02
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/04/02/1-1-regularization/" itemprop="url">
-            <span itemprop="name">1.1-regularization</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-30T16:29:03+08:00"
-              content="2020-04-30">
-          04-30
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/30/leetcode-day-30/" itemprop="url">
-            <span itemprop="name">leetcode-day-30</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-29T19:02:35+08:00"
-              content="2020-04-29">
-          04-29
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/29/leetcode-day-29/" itemprop="url">
-            <span itemprop="name">leetcode-day-29</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-29T16:55:37+08:00"
-              content="2020-04-29">
-          04-29
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/29/Pytorch-tutorial-word-embedding/" itemprop="url">
-            <span itemprop="name">Pytorch-tutorial-word-embedding</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-28T22:24:07+08:00"
-              content="2020-04-28">
-          04-28
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/28/leetcode-day-28/" itemprop="url">
-            <span itemprop="name">leetcode-day-28</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-27T16:21:15+08:00"
-              content="2020-04-27">
-          04-27
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/27/leetcode-day-27/" itemprop="url">
-            <span itemprop="name">leetcode-day-27</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-27T16:20:51+08:00"
-              content="2020-04-27">
-          04-27
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/27/leetcode-day-26/" itemprop="url">
-            <span itemprop="name">leetcode-day-26</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-25T18:41:16+08:00"
-              content="2020-04-25">
-          04-25
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/25/leetcode-day-25/" itemprop="url">
-            <span itemprop="name">leetcode-day-25</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-04-25T11:50:31+08:00"
-              content="2020-04-25">
-          04-25
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/04/25/leetcode-day-24/" itemprop="url">
-            <span itemprop="name">leetcode-day-24</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        <h2 id="Regularization-正则化"><a href="#Regularization-正则化" class="headerlink" title="Regularization 正则化"></a>Regularization 正则化</h2><blockquote>
+<p>  Ref: P9 - P10</p>
+</blockquote>
+<p>本节讨论了一个曲线拟合问题，待拟合的是一组有噪声的数据。</p>
+<p>这一问题中，待训练的模型如下：</p>
+<p>$$<br>y(x, \mathbf{w})=w_{0}+w_{1} x+w_{2} x^{2}+\ldots+w_{M} x^{M}=\sum_{j=0}^{M} w_{j} x^{j}<br>$$<br>当使用朴素的均方误差作为损失函数：<br>$$<br>E(\mathbf{w})=\frac{1}{2} \sum_{n=1}^{N}\left{y\left(x_{n}, \mathbf{w}\right)-t_{n}\right}^{2}<br>$$<br>且样本数量并不够大的时候，会出现严重的过拟合现象，如下左图。</p>
+<p><img src="assets/image-20210402165118711.png" alt="image-20210402165118711"></p>
+<p>为了克服这一问题，在均方误差基础上添加一个惩罚项，能有效修正这一问题：<br>$$<br>\widetilde{E}(\mathbf{w})=\frac{1}{2} \sum_{n=1}^{N}\left{y\left(x_{n}, \mathbf{w}\right)-t_{n}\right}^{2}+\frac{\lambda}{2}|\mathbf{w}|^{2}<br>$$<br>这一类做法被称为正则化，在统计学上是一种收缩（shrinkage）的方法。</p>
+<p>本例中的方法，在传统机器学习、统计学上称为岭回归（ridge regression）；在神经网络训练中称为 权重衰减（weight decay），也称为 L2 正则化。</p>
+<hr>
+<blockquote>
+<p>  Q1 为什么随着过拟合的发生，权重激增？</p>
+</blockquote>
+<blockquote>
+<p>  Q2 模型对数据的敏感程度与权重标准差较大的关系</p>
+</blockquote>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Machine-learning-Pattern-recognition/" rel="tag"># Machine-learning, Pattern-recognition</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/30/leetcode-day-30/" rel="prev" title="leetcode-day-30">
+      <i class="fa fa-chevron-left"></i> leetcode-day-30
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/04/02/PRML-cookbook/" rel="next" title="PRML-cookbook">
+      PRML-cookbook <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
+  
+  
 
 
 
@@ -471,6 +353,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Regularization-正则化"><span class="nav-number">1.</span> <span class="nav-text">Regularization 正则化</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
